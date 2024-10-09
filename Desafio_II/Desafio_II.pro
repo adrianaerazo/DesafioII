@@ -4,4 +4,8 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        estaciones.cpp \
         main.cpp
+
+HEADERS += \
+    estaciones.h
