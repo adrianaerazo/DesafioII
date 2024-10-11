@@ -57,12 +57,14 @@ void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, st
     }
 
     // Asignar los valores a la nueva estación en el arreglo, usando acceso directo a los atributos públicos
-    arregloEstaciones[numeroEstaciones_actual].nombreEstacion = _nombreEstacion;
-    arregloEstaciones[numeroEstaciones_actual].codigoEstacion = _codigoEstacion;
-    arregloEstaciones[numeroEstaciones_actual].gerente = _gerente;
-    arregloEstaciones[numeroEstaciones_actual].region = _region;
-    arregloEstaciones[numeroEstaciones_actual].ubicacionGPS[0] = _ubicacionGPS[0];
-    arregloEstaciones[numeroEstaciones_actual].ubicacionGPS[1] = _ubicacionGPS[1];
+    arregloEstaciones[numeroEstaciones_actual]=Estaciones(_nombreEstacion, _codigoEstacion, _gerente, _region, _ubicacionGPS);
+
+    //arregloEstaciones[numeroEstaciones_actual].nombreEstacion = _nombreEstacion;
+    //arregloEstaciones[numeroEstaciones_actual].codigoEstacion = _codigoEstacion;
+    //arregloEstaciones[numeroEstaciones_actual].gerente = _gerente;
+    //arregloEstaciones[numeroEstaciones_actual].region = _region;
+    //arregloEstaciones[numeroEstaciones_actual].ubicacionGPS[0] = _ubicacionGPS[0];
+    //arregloEstaciones[numeroEstaciones_actual].ubicacionGPS[1] = _ubicacionGPS[1];
 
     // Incrementar el número de estaciones
     numeroEstaciones_actual++;  // Incrementamos el número de estaciones

@@ -24,6 +24,7 @@ public:
     void crearEstacion(std::string _nombreEstacion, int _codigoEstacion, std::string _gerente, std::string _region, float _ubicacionGPS[2]);
     void EliminarEstacion(int indice);
     int getnumeroEstaciones_actual();
+    int CalculoMontoTotal();
 
 
 };

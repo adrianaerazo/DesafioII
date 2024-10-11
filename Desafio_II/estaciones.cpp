@@ -19,6 +19,10 @@ Estaciones::Estaciones() {
     region = "";
     ubicacionGPS[0] = 0.0;
     ubicacionGPS[1] = 0.0;
+
+    for (int i=0; i<4; i++) {
+        historial_Ventas[i]=0.0
+    }
 }
 
 //Implementacion metodos
@@ -32,6 +36,10 @@ void Estaciones::setNombreEstacion(std::string _nombreEstacion)
 std::string Estaciones::getNombreEstacion() const
 {
     return nombreEstacion;
+}
+
+void Estaciones::venta(float _metodo_pago, float _cant_L, float _fecha, float _hora, float _categoria){
+
 }
 
 //Implementacion get y set Codigo de Estacion
