@@ -12,7 +12,7 @@ private:
     float ventasTotales;
     int numeroEstaciones_actual;        // Número actual de estaciones
     int numeroEstaciones_total;        // Número Total de estaciones
-    Estaciones arregloEstaciones[10]; //  arreglo de Estaciones
+    Estaciones* arregloEstaciones; //  arreglo de Estaciones
 
 
 

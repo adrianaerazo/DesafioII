@@ -7,10 +7,14 @@ Empresa::Empresa(std::string _nombreEmpresa, int _numeroEstaciones )
 {
     // Inicializar el arreglo dinámico de Estaciones
     numeroEstaciones_actual = 0; // Empieza en 0 porque no sean creado Estaciones aun
-    numeroEstaciones_total=10;
+    numeroEstaciones_total=_numeroEstaciones;
     // Asignar memoria dinámica para el arreglo de Estaciones
     nombreEmpresa=_nombreEmpresa;
     ventasTotales=0;
+
+    arregloEstaciones = new Estaciones[numeroEstaciones_total];  // Asignación de memoria dinámica
+
+
 
 
     //Poner precios que aumentan de 1000 en 1000
