@@ -5,9 +5,7 @@
 
 class Estaciones
 {
-
-
-private:
+public:
     // Atributos
     std::string nombreEstacion;
     int codigoEstacion;
@@ -17,7 +15,9 @@ private:
 
 public:
     // Constructor
+    Estaciones();
     Estaciones(std::string _nombreEstacion, int _codigoEstacion, std::string _gerente, std::string _region, float _ubicacionGPS[2]);
+
     //Definir metodos
 
     //Definir set y get Nombre Estacion

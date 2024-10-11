@@ -1,7 +1,7 @@
 #include "estaciones.h"
 #include <iostream>
 
-// Constructor
+// Constructores
 Estaciones::Estaciones(std::string _nombreEstacion, int _codigoEstacion,std::string  _gerente, std::string _region,float _ubicacionGPS[2])
 {
     nombreEstacion=_nombreEstacion;
@@ -11,10 +11,20 @@ Estaciones::Estaciones(std::string _nombreEstacion, int _codigoEstacion,std::str
     ubicacionGPS[0] = _ubicacionGPS[0];
     ubicacionGPS[1] = _ubicacionGPS[1];
 }
+Estaciones::Estaciones() {
+    // Inicialización por defecto
+    nombreEstacion = "";
+    codigoEstacion = 0;
+    gerente = "";
+    region = "";
+    ubicacionGPS[0] = 0.0;
+    ubicacionGPS[1] = 0.0;
+}
 
 //Implementacion metodos
 
 //Implementacion get y set Nombre Estacion
+
 void Estaciones::setNombreEstacion(std::string _nombreEstacion)
 {
     nombreEstacion=_nombreEstacion;
