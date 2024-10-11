@@ -3,32 +3,39 @@
 #include <iostream>
 
 int main() {
-    int aux=0;
+    int aux = 0;
 
     // Crear una empresa con capacidad para 5 estaciones
     Empresa miEmpresa("Terpel", 5);
 
     // Crear dos estaciones
-    float gps1[] = {19.4326, -99.1332}; // Ubicación de la estación 1
-    float gps2[] = {40.7128, -74.0060}; // Ubicación de la estación 2
+    float gps1[] = {19.4326, -99.1332}; // Ubicacion de la estacion 1
+    float gps2[] = {40.7128, -74.0060}; // Ubicacion de la estacion 2
 
-    miEmpresa.crearEstacion("Estación A", 101, "Juan Pérez", "Centro", gps1);
-    miEmpresa.crearEstacion("Estación B", 102, "María Gómez", "Norte", gps2);
+    miEmpresa.crearEstacion("Estacion A", 101, "Juan Perez", "Centro", gps1);
+    miEmpresa.crearEstacion("Estacion B", 102, "Maria Gomez", "Norte", gps2);
 
-    // Verificar el número de estaciones antes de eliminar
+    // Verificar el numero de estaciones antes de eliminar
     std::cout << "Numero de estaciones antes de eliminar: " << miEmpresa.getnumeroEstaciones_actual() << std::endl;
 
-    // Eliminar la estación en el índice 0 (la primera estación)
+    // Eliminar la estacion en el indice 0 (la primera estacion)
     miEmpresa.EliminarEstacion(0);
 
-    // Verificar el número de estaciones después de eliminar
+    // Verificar el numero de estaciones despues de eliminar
     std::cout << "Numero de estaciones despues de eliminar: " << miEmpresa.getnumeroEstaciones_actual() << std::endl;
 
-    // Intentar eliminar una estación con un índice fuera de rango
-    miEmpresa.EliminarEstacion(5);  // Esto debe mostrar "indice fuera de rango"
+    miEmpresa.crearEstacion("Estacion A", 101, "Juan Perez", "Centro", gps1);
+    miEmpresa.crearEstacion("Estacion B", 102, "Maria Gomez", "Norte", gps2);
+    miEmpresa.crearEstacion("Estacion A", 101, "Juan Perez", "Centro", gps1);
+    miEmpresa.crearEstacion("Estacion B", 102, "Maria Gomez", "Norte", gps2);
+    miEmpresa.crearEstacion("Estacion A", 101, "Juan Perez", "Centro", gps1);
+    miEmpresa.crearEstacion("Estacion B", 102, "Maria Gomez", "Norte", gps2);
+    miEmpresa.crearEstacion("Estacion A", 101, "Juan Perez", "Centro", gps1);
+    miEmpresa.crearEstacion("Estacion B", 102, "Maria Gomez", "Norte", gps2);
 
-
-
+    // Verificar el numero de estaciones despues de eliminar
+    std::cout << "Numero de estaciones despues de eliminar: " << miEmpresa.getnumeroEstaciones_actual() << std::endl;
 
     return 0;
 }
+

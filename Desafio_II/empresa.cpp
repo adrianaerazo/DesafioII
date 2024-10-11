@@ -31,12 +31,32 @@ Empresa::Empresa(std::string _nombreEmpresa, int _numeroEstaciones )
 
 // Destructor
 Empresa::~Empresa() {
+    delete[] arregloEstaciones;
 
 }
-
 void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, std::string _gerente, std::string _region, float _ubicacionGPS[2]) {
 
-    // Asignar los valores a la estación en el arreglo, usando acceso directo a los atributos públicos
+    // Verificamos si necesitamos redimensionar el arreglo
+    if (numeroEstaciones_actual == numeroEstaciones_total) {
+        // Si el arreglo está lleno, duplicamos la capacidad
+        numeroEstaciones_total *= 2;  // Doblamos la capacidad del arreglo
+
+        // Creamos un nuevo arreglo con la nueva capacidad
+        Estaciones* nuevoArreglo = new Estaciones[numeroEstaciones_total];
+
+        // Copiamos las estaciones existentes al nuevo arreglo
+        for (int i = 0; i < numeroEstaciones_actual; i++) {
+            nuevoArreglo[i] = arregloEstaciones[i];
+        }
+
+        // Liberamos la memoria del arreglo antiguo
+        delete[] arregloEstaciones;
+
+        // Asignamos el nuevo arreglo al puntero
+        arregloEstaciones = nuevoArreglo;
+    }
+
+    // Asignar los valores a la nueva estación en el arreglo, usando acceso directo a los atributos públicos
     arregloEstaciones[numeroEstaciones_actual].nombreEstacion = _nombreEstacion;
     arregloEstaciones[numeroEstaciones_actual].codigoEstacion = _codigoEstacion;
     arregloEstaciones[numeroEstaciones_actual].gerente = _gerente;
@@ -45,9 +65,24 @@ void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, st
     arregloEstaciones[numeroEstaciones_actual].ubicacionGPS[1] = _ubicacionGPS[1];
 
     // Incrementar el número de estaciones
-    numeroEstaciones_actual++;
+    numeroEstaciones_actual++;  // Incrementamos el número de estaciones
 
+    std::cout << "Estacion creada correctamente." << std::endl;
 }
+//void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, std::string _gerente, std::string _region, float _ubicacionGPS[2]) {
+//
+//    // Asignar los valores a la estación en el arreglo, usando acceso directo a los atributos públicos
+//    arregloEstaciones[numeroEstaciones_actual].nombreEstacion = _nombreEstacion;
+//    arregloEstaciones[numeroEstaciones_actual].codigoEstacion = _codigoEstacion;
+//    arregloEstaciones[numeroEstaciones_actual].gerente = _gerente;
+//    arregloEstaciones[numeroEstaciones_actual].region = _region;
+//    arregloEstaciones[numeroEstaciones_actual].ubicacionGPS[0] = _ubicacionGPS[0];
+//    arregloEstaciones[numeroEstaciones_actual].ubicacionGPS[1] = _ubicacionGPS[1];
+//
+//    // Incrementar el número de estaciones
+//    numeroEstaciones_actual++;
+//
+//}
 
 // Método para eliminar una estación por su índice
 void Empresa::EliminarEstacion(int indice) {
