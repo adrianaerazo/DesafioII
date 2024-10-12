@@ -59,32 +59,12 @@ void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, st
     // Asignar los valores a la nueva estación en el arreglo, usando acceso directo a los atributos públicos
     arregloEstaciones[numeroEstaciones_actual]=Estaciones(_nombreEstacion, _codigoEstacion, _gerente, _region, _ubicacionGPS);
 
-    //arregloEstaciones[numeroEstaciones_actual].nombreEstacion = _nombreEstacion;
-    //arregloEstaciones[numeroEstaciones_actual].codigoEstacion = _codigoEstacion;
-    //arregloEstaciones[numeroEstaciones_actual].gerente = _gerente;
-    //arregloEstaciones[numeroEstaciones_actual].region = _region;
-    //arregloEstaciones[numeroEstaciones_actual].ubicacionGPS[0] = _ubicacionGPS[0];
-    //arregloEstaciones[numeroEstaciones_actual].ubicacionGPS[1] = _ubicacionGPS[1];
-
     // Incrementar el número de estaciones
     numeroEstaciones_actual++;  // Incrementamos el número de estaciones
 
     std::cout << "Estacion creada correctamente." << std::endl;
 }
-//void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, std::string _gerente, std::string _region, float _ubicacionGPS[2]) {
-//
-//    // Asignar los valores a la estación en el arreglo, usando acceso directo a los atributos públicos
-//    arregloEstaciones[numeroEstaciones_actual].nombreEstacion = _nombreEstacion;
-//    arregloEstaciones[numeroEstaciones_actual].codigoEstacion = _codigoEstacion;
-//    arregloEstaciones[numeroEstaciones_actual].gerente = _gerente;
-//    arregloEstaciones[numeroEstaciones_actual].region = _region;
-//    arregloEstaciones[numeroEstaciones_actual].ubicacionGPS[0] = _ubicacionGPS[0];
-//    arregloEstaciones[numeroEstaciones_actual].ubicacionGPS[1] = _ubicacionGPS[1];
-//
-//    // Incrementar el número de estaciones
-//    numeroEstaciones_actual++;
-//
-//}
+
 
 // Método para eliminar una estación por su índice
 void Empresa::EliminarEstacion(int indice) {
@@ -102,8 +82,24 @@ void Empresa::EliminarEstacion(int indice) {
     }
 }
 
+int Empresa::CalculoMontoTotal(){
+    
+    std::cout << "Nombre " << "Region "<<" Venta T" << " Venta R" << " Venta P" << " Venta Ec.\n";
+    
+    for (int i= 0; i<numeroEstaciones_actual;i++){
+        ventasTotales=ventasTotales+arregloEstaciones[i].historial_Ventas[0] 
+         std::cout <<nombreEmpresa <<arregloEstaciones[i].getregion()<< arregloEstaciones[i].historial_Ventas[0] << arregloEstaciones[i].historial_Ventas[1] << arregloEstaciones[i].historial_Ventas[2] << arregloEstaciones[i].historial_Ventas[3]<<"".\n";
+    }
+    
+    std::cout << "Las Ventas totales fueron "<< ventasTotales << "\n";
+}
+
 int Empresa::getnumeroEstaciones_actual(){
     return numeroEstaciones_actual;
+}
+
+std::string getnombreEmpresa(){
+    return nombreEmpresa
 }
 
 

@@ -6,8 +6,10 @@ CONFIG -= qt
 SOURCES += \
         empresa.cpp \
         estaciones.cpp \
-        main.cpp
+        main.cpp \
+        surtidores.cpp
 
 HEADERS += \
     empresa.h \
-    estaciones.h
+    estaciones.h \
+    surtidores.h
