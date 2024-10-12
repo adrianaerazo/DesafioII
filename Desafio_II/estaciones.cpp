@@ -2,7 +2,7 @@
 #include <iostream>
 
 // Constructores
-Estaciones::Estaciones(std::string _nombreEstacion, int _codigoEstacion,std::string  _gerente, std::string _region,float _ubicacionGPS[2],float _preciosCombustible[3][3]))
+Estaciones::Estaciones(std::string _nombreEstacion, int _codigoEstacion,std::string  _gerente, int _region, float _ubicacionGPS[2], float _preciosCombustible[3][3])
 {
     nombreEstacion=_nombreEstacion;
     codigoEstacion=_codigoEstacion;
@@ -26,14 +26,14 @@ Estaciones::Estaciones() {
     nombreEstacion = "";
     codigoEstacion = 0;
     gerente = "";
-    region = "";
+    region = 0;
     ubicacionGPS[0] = 0.0;
     ubicacionGPS[1] = 0.0;
     numero_ventas=0;
     
 
     for (int i=0; i<4; i++) {
-        historial_Ventas[i]=0.0
+        historial_Ventas[i]=0.0;
     }
     
     for(int i=0; i<3; i++)
@@ -47,7 +47,9 @@ Estaciones::Estaciones() {
 
 //Implementacion metodos
 
-void venta(float _metodo_pago, float _cant_L, float _fecha, float _hora, float _categoria, tipo_gal){
+void Estaciones::venta(float _metodo_pago, float _cant_L, float _fecha, float _hora, float _categoria, int tipo_gal){
+    int precio_cobrar=0;
+    
     historial_Transacciones = new float[5]();// // info: metodo_pago, cantidad L vendida ,fecha ,hora, categoria de gasolina
     
     // Asignar valores a cada elemento del arreglo
@@ -60,16 +62,16 @@ void venta(float _metodo_pago, float _cant_L, float _fecha, float _hora, float _
     
 
     //Guardar valores totales de ventas
-    precio_cobrar=preciosCombustible[region][tipo_gal]*_cant_L //Las columnas son Sur/Centro/Norte, las filas son el tipo de gasolina, Regular/Premium/
-    historial_Ventas[0]=historial_Ventas[0]+precio_cobrar  // venta toal
-    historial_Ventas[tipo_gal]=historial_Ventas[tipo_gal]+precio_cobrar  // venta tipo gasolina
+    precio_cobrar=preciosCombustible[region][tipo_gal]*_cant_L; //Las columnas son Sur/Centro/Norte, las filas son el tipo de gasolina, Regular/Premium/
+    historial_Ventas[0]=historial_Ventas[0]+precio_cobrar ; // venta toal
+    historial_Ventas[tipo_gal]=historial_Ventas[tipo_gal]+precio_cobrar ; // venta tipo gasolina
 }
 
 //Implementacion get y set Nombre Estacion
 
-std::string getregion(){
+int Estaciones::getregion(){
     return region;
-}
+
 }
 
 void Estaciones::setNombreEstacion(std::string _nombreEstacion)
@@ -81,9 +83,6 @@ std::string Estaciones::getNombreEstacion() const
     return nombreEstacion;
 }
 
-void Estaciones::venta(float _metodo_pago, float _cant_L, float _fecha, float _hora, float _categoria){
-
-}
 
 //Implementacion get y set Codigo de Estacion
 void Estaciones::setCodigoEstacion(int _codigoEstacion)

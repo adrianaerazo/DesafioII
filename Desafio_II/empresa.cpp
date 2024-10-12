@@ -34,7 +34,7 @@ Empresa::~Empresa() {
     delete[] arregloEstaciones;
 
 }
-void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, std::string _gerente, std::string _region, float _ubicacionGPS[2]) {
+void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, std::string _gerente, int _region, float _ubicacionGPS[2]) {
 
     // Verificamos si necesitamos redimensionar el arreglo
     if (numeroEstaciones_actual == numeroEstaciones_total) {
@@ -57,7 +57,7 @@ void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, st
     }
 
     // Asignar los valores a la nueva estación en el arreglo, usando acceso directo a los atributos públicos
-    arregloEstaciones[numeroEstaciones_actual]=Estaciones(_nombreEstacion, _codigoEstacion, _gerente, _region, _ubicacionGPS);
+    arregloEstaciones[numeroEstaciones_actual]=Estaciones(_nombreEstacion, _codigoEstacion, _gerente, _region, _ubicacionGPS,preciosCombustible);
 
     // Incrementar el número de estaciones
     numeroEstaciones_actual++;  // Incrementamos el número de estaciones
@@ -87,19 +87,21 @@ int Empresa::CalculoMontoTotal(){
     std::cout << "Nombre " << "Region "<<" Venta T" << " Venta R" << " Venta P" << " Venta Ec.\n";
     
     for (int i= 0; i<numeroEstaciones_actual;i++){
-        ventasTotales=ventasTotales+arregloEstaciones[i].historial_Ventas[0] 
-         std::cout <<nombreEmpresa <<arregloEstaciones[i].getregion()<< arregloEstaciones[i].historial_Ventas[0] << arregloEstaciones[i].historial_Ventas[1] << arregloEstaciones[i].historial_Ventas[2] << arregloEstaciones[i].historial_Ventas[3]<<"".\n";
+        ventasTotales=ventasTotales+arregloEstaciones[i].historial_Ventas[0];
+         std::cout <<nombreEmpresa <<arregloEstaciones[i].getregion()<< arregloEstaciones[i].historial_Ventas[0] << arregloEstaciones[i].historial_Ventas[1] << arregloEstaciones[i].historial_Ventas[2] << arregloEstaciones[i].historial_Ventas[3]<<".\n";
     }
     
     std::cout << "Las Ventas totales fueron "<< ventasTotales << "\n";
+    
+    return ventasTotales;
 }
 
 int Empresa::getnumeroEstaciones_actual(){
     return numeroEstaciones_actual;
 }
 
-std::string getnombreEmpresa(){
-    return nombreEmpresa
+std::string Empresa::getnombreEmpresa(){
+    return nombreEmpresa;
 }
 
 
