@@ -13,9 +13,10 @@ private:
     int region;
     float ubicacionGPS[2];
     float preciosCombustible[3][3];
+    int Capacidad_tanque[3];
     
 public:
-    float historial_Ventas[4]; // venta toal, venta regular ,venta prem , regular eco
+    float historial_Ventas[4]; // venta total, venta regular ,venta prem , regular eco
     float *historial_Transacciones; // info: metodo_pago, cantidad L vendida ,fecha ,hora, categoria de gasolina
     int numero_ventas;
     //float historial_Transacciones[5]; 

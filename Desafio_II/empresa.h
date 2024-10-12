@@ -24,10 +24,10 @@ public:
     //Definicion Metodos
 public:
     void crearEstacion(std::string _nombreEstacion, int _codigoEstacion, std::string _gerente, int _region, float _ubicacionGPS[2]);
-    void EliminarEstacion(int indice);
+    void eliminarEstacion(int indice);
     int getnumeroEstaciones_actual();
     std::string getnombreEmpresa();
-    int CalculoMontoTotal();
+    int calculoMontoTotal();
 
 
 };

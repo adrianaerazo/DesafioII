@@ -1,5 +1,7 @@
 #include "estaciones.h"
 #include <iostream>
+#include <cstdlib> // Para rand() y srand()
+#include <ctime>   // Para time()
 
 // Constructores
 Estaciones::Estaciones(std::string _nombreEstacion, int _codigoEstacion,std::string  _gerente, int _region, float _ubicacionGPS[2], float _preciosCombustible[3][3])
@@ -31,11 +33,23 @@ Estaciones::Estaciones() {
     ubicacionGPS[1] = 0.0;
     numero_ventas=0;
     
+    //definir capacidad tanques Regular/Premium/Eco
+    
+    // Inicializa la semilla del generador de números aleatorios
+    srand(static_cast<unsigned int>(time(0)));
 
+
+    // Asignar valores aleatorios entre 100 y 200
+    for (int i = 0; i < 3; ++i) {
+        Capacidad_tanque[i] = static_cast<float>(rand() % 101 + 100); // Genera un número entre 100 y 200
+    }
+    
+    //inicializar historial en 0
     for (int i=0; i<4; i++) {
         historial_Ventas[i]=0.0;
     }
     
+    //poner precio de combustible definido
     for(int i=0; i<3; i++)
     {
         for(int j=0; j<3; j++)
@@ -49,7 +63,22 @@ Estaciones::Estaciones() {
 
 void Estaciones::venta(float _metodo_pago, float _cant_L, float _fecha, float _hora, float _categoria, int tipo_gal){
     int precio_cobrar=0;
+    int aux_capacidad=0;
     
+    //Actualizar cantidad de combustible en los tanques (Regular/Premium/Eco)
+    aux_capacidad=Capacidad_tanque[tipo_gal]-_cant_L; // utilizar variable aux para verificar si hay suficiente para vender, si no vender lo que hay
+    
+    //verificar si el tanque se vacio
+    if (aux_capacidad<=0){
+        _cant_L=_cant_L-Capacidad_tanque[tipo_gal];
+        Capacidad_tanque[tipo_gal]=0; //evitar negativos
+        //desactivar surtidores
+    }
+    else {
+        Capacidad_tanque[tipo_gal]=Capacidad_tanque[tipo_gal]-_cant_L;
+    }
+    
+    //Informacion de venta
     historial_Transacciones = new float[5]();// // info: metodo_pago, cantidad L vendida ,fecha ,hora, categoria de gasolina
     
     // Asignar valores a cada elemento del arreglo
@@ -62,9 +91,14 @@ void Estaciones::venta(float _metodo_pago, float _cant_L, float _fecha, float _h
     
 
     //Guardar valores totales de ventas
-    precio_cobrar=preciosCombustible[region][tipo_gal]*_cant_L; //Las columnas son Sur/Centro/Norte, las filas son el tipo de gasolina, Regular/Premium/
-    historial_Ventas[0]=historial_Ventas[0]+precio_cobrar ; // venta toal
-    historial_Ventas[tipo_gal]=historial_Ventas[tipo_gal]+precio_cobrar ; // venta tipo gasolina
+    precio_cobrar=preciosCombustible[region][tipo_gal]*_cant_L; //Las columnas son Sur/Centro/Norte, las filas son el tipo de gasolina, Regular/Premium/Eco
+    historial_Ventas[0]=historial_Ventas[0]+precio_cobrar ; // venta total
+    historial_Ventas[tipo_gal+1]=historial_Ventas[tipo_gal+1]+precio_cobrar ; // venta tipo gasolina
+    
+    
+     
+    
+    
 }
 
 //Implementacion get y set Nombre Estacion

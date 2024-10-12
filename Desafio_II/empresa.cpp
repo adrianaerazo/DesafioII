@@ -67,7 +67,7 @@ void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, st
 
 
 // Método para eliminar una estación por su índice
-void Empresa::EliminarEstacion(int indice) {
+void Empresa::eliminarEstacion(int indice) {
     if (indice >= 0 && indice < numeroEstaciones_actual) {
         // Mover las estaciones hacia adelante a partir del índice
         for (int i = indice; i < numeroEstaciones_actual - 1; i++) {
@@ -82,7 +82,7 @@ void Empresa::EliminarEstacion(int indice) {
     }
 }
 
-int Empresa::CalculoMontoTotal(){
+int Empresa::calculoMontoTotal(){
     
     std::cout << "Nombre " << "Region "<<" Venta T" << " Venta R" << " Venta P" << " Venta Ec.\n";
     
