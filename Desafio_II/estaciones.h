@@ -10,10 +10,10 @@ private:
     std::string nombreEstacion;
     int codigoEstacion;
     std::string gerente;
-    int region;//0=sur, 1=centro, 2=norte
+    short region;//0=sur, 1=centro, 2=norte
     float ubicacionGPS[2];//Latitud y longitud
-    float preciosCombustible[3][3];//arreglo de precios 3x3
-    int Capacidad_tanque[3];//los 3 valores, el regular, premium, ecoextra
+    int preciosCombustible[3][3];//arreglo de precios 1x3
+    short Capacidad_tanque[3];//los 3 valores, el regular, premium, ecoextra
     
 public:
     float historial_Ventas[4]; // venta total, venta regular ,venta prem , venta eco
@@ -24,7 +24,7 @@ public:
 public:
     // Constructor
     Estaciones();
-    Estaciones(std::string _nombreEstacion, short _codigoEstacion, std::string _gerente, short _region, float _ubicacionGPS[2], float _preciosCombustible[3][3]);
+    Estaciones(std::string _nombreEstacion, short _codigoEstacion, std::string _gerente, short _region, float _ubicacionGPS[2], int _preciosCombustible[3][3]);
     
     //Definir metodos
 
@@ -43,10 +43,10 @@ public:
     std::string getGerente() const;
     int getregion();
 
+    void actualizarPrecios(int nuevosPrecios[3][3]);
     void agregarSurtidor(int codigoSurtidor, std::string modeloSurtidor);
     void eliminarSurtidor(int codigoSurtidor, std::string modeloSurtidor);
     void calcularVentasPorCategoria();
-    void fijarPreciosCombustible();
     void actualizarDisponibilidadCombustible();
     void simularVentaCombustible();
     bool verificarFugaCombustible();

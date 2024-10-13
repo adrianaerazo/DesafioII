@@ -4,7 +4,7 @@
 
 
 // Constructor
-Empresa::Empresa(std::string _nombreEmpresa, int _numeroEstaciones )
+Empresa::Empresa(std::string _nombreEmpresa, int _numeroEstaciones)
 {
     // Inicializar el arreglo dinámico de Estaciones
     numeroEstaciones_actual = 0; // Empieza en 0 porque no sean creado Estaciones aun
@@ -20,6 +20,7 @@ Empresa::Empresa(std::string _nombreEmpresa, int _numeroEstaciones )
 
 
     //Poner precios que aumentan de 1000 en 1000
+    //por defecto, en automatico
     int aux_precio=1000;
     for(int i=0; i<3; i++)
     {
@@ -31,6 +32,7 @@ Empresa::Empresa(std::string _nombreEmpresa, int _numeroEstaciones )
     }
 }
 
+
 // Destructor
 Empresa::~Empresa()
 {
@@ -38,7 +40,7 @@ Empresa::~Empresa()
 
 }
 
-void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, std::string _gerente, int _region, float _ubicacionGPS[2])
+void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, std::string _gerente, short _region, float _ubicacionGPS[2], int preciosCombustible[3][3])
 {
     // Verificamos si necesitamos redimensionar el arreglo
     if (numeroEstaciones_actual == numeroEstaciones_total)
@@ -94,9 +96,9 @@ void Empresa::eliminarEstacion(int indice)
 }
 
 int Empresa::calculoMontoTotal()
-{
+{//Calcular ventas totales de la estacion
     
-    std::cout << "Nombre " << " Region "<<" Venta Total " << " V. Regular" << " V. Premium " << " V. EcoExtra\n";
+    std::cout << "Nombre estacion " << " Region "<<" Venta Total " << " V. Regular" << " V. Premium " << " V. EcoExtra\n";
     
     for (int i= 0; i<numeroEstaciones_actual;i++)
     {
@@ -118,6 +120,26 @@ std::string Empresa::getnombreEmpresa()
 {
     return nombreEmpresa;
 }
+
+void Empresa::cambiarPrecio(int precioBase, int precioAumentar)
+{
+    // Cambiar los precios en la matriz preciosCombustible de la clase Empresa
+    for(int i=0; i<3; i++)
+    {
+        for(int j=0; j<3; j++)
+        {
+            preciosCombustible[i][j] = precioBase;
+            precioBase += precioAumentar;
+        }
+    }
+
+    // Asignar los nuevos precios a cada estación existente
+    for(int i = 0; i < numeroEstaciones_actual; i++)
+    {
+        arregloEstaciones[i].actualizarPrecios(preciosCombustible); // Método para actualizar precios en cada estación
+    }
+}
+
 
 
 

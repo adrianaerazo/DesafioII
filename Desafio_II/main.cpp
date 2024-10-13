@@ -1,11 +1,11 @@
 #include "empresa.h"
 #include "estaciones.h"
 #include <iostream>
+#include <cstdlib> // Para rand() y srand()
+#include <ctime>   // Para time()
 
 int main()
 {
-    int aux = 0;
-
     // Crear una empresa con capacidad para 5 estaciones
     Empresa miEmpresa("Terpel", 5);
 
