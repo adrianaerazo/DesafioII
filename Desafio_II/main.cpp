@@ -16,28 +16,37 @@ int main()
     srand(static_cast<int>(time(0)));
 
     // Crear una empresa con capacidad para 5 estaciones
-    Empresa miEmpresa("Terpel", 5);
-
-    // Definición de precios de combustible
-    int preciosCombustible[3][3] =
-        {
-            {1000, 4000, 7000}, // Precios para la región Sur
-            {2000, 5000, 8000}, // Precios para la región Centro
-            {3000, 6000, 10000}  // Precios para la región Norte
-        };
-
-    // Agregar estaciones iniciales
-    float gps1[] = {19.4326, -99.1332}; // Ubicación de la estación 1
-    float gps2[] = {40.7128, -74.0060}; // Ubicación de la estación 2
-    miEmpresa.crearEstacion("Estacion A", 101, "Juan Perez", 1, gps1, preciosCombustible);
-    miEmpresa.crearEstacion("Estacion B", 102, "Maria Gomez", 2, gps2, preciosCombustible);
+    Empresa miEmpresa("TerMax", 5);
 
     // Mostrar el menú principal
     menuPrincipal(miEmpresa);
 
     return 0;
 }
+//el & es para acceder a su posicion en memoria y dado el caso, poder cambiar su valor
+void verificarOpcion(int& ingresado, int minimo, int maximo)
+{
+    bool esValido = false;
 
+    while (!esValido)
+    {
+        std::cin >> ingresado;
+
+        // Verificar si la entrada es válida (número) y está dentro del rango
+        if (std::cin && ingresado >= minimo && ingresado <= maximo)
+        {
+            esValido = true;  // Entrada válida
+        }
+        else
+        {
+            std::cin.clear(); // Limpiar el estado de error (por si ingresó un carácter no numérico)
+            std::cin.ignore(1000, '\n'); // Limpiar el resto de la línea, puede eliminar hasta mil carceteres hsta encontrar el salto de linea
+
+            std::cout << "Opción inválida, por favor ingrese un número válido dentro del rango." << std::endl;
+            std::cout << "Ingrese una opción entre " << minimo << " y " << maximo << ": ";
+        }
+    }
+}
 void menuPrincipal(Empresa& miEmpresa)
 {
     int opcion = 0;
@@ -45,12 +54,15 @@ void menuPrincipal(Empresa& miEmpresa)
     do
     {
         std::cout << "\nMenu Principal" << std::endl;
+        std::cout<<std::endl;
         std::cout << "1. Gestionar Empresa." << std::endl;
         std::cout << "2. Gestionar Estaciones." << std::endl;
         std::cout << "3. Realizar venta de combustible." << std::endl;
         std::cout << "4. Salir." << std::endl;
         std::cout << "Seleccione la opcion que desee consultar: ";
         std::cin >> opcion;
+
+        verificarOpcion(opcion, 1, 4);
 
         switch (opcion)
         {
@@ -100,13 +112,16 @@ void menuEmpresa(Empresa& miEmpresa)
     do
     {
         std::cout << "\nMenu Gestionar Empresa" << std::endl;
+        std::cout<<std::endl;
         std::cout << "1. Agregar estaciones de servicio." << std::endl;
         std::cout << "2. Eliminar una E/S de la red nacional." << std::endl;
         std::cout << "3. Calcular el monto total de las ventas en cada E/S del pais, discriminado por categoria de combustible." << std::endl;
-        std::cout << "4. Fijar los precios del combustible para toda la red." << std::endl;
+        std::cout << "4. Cambiar los precios del combustible para toda la red." << std::endl;
         std::cout << "5. Volver al menu principal." << std::endl;
         std::cout << "Seleccione la opcion que desee consultar: ";
         std::cin >> opcion;
+
+        verificarOpcion(opcion, 1, 5);
 
         switch (opcion)
         {
@@ -185,6 +200,7 @@ void menuEstaciones()
 
     do {
         std::cout << "\nMenu Gestionar Estaciones" << std::endl;
+        std::cout<<std::endl;
         std::cout << "1. Agregar surtidor a la estacion." << std::endl;
         std::cout << "2. Eliminar surtidor de la estacion." << std::endl;
         std::cout << "3. Activar surtidor de la estacion." << std::endl;
@@ -194,6 +210,8 @@ void menuEstaciones()
         std::cout << "7. Volver al menu principal." << std::endl;
         std::cout << "Seleccione la opcion que desee consultar: ";
         std::cin >> opcion;
+
+        verificarOpcion(opcion, 1, 7);
 
         // Aquí debes implementar la funcionalidad para cada opción
         switch (opcion)
@@ -227,10 +245,13 @@ void menuSurtidorVenta(Surtidores& surtidor)
     do
     {
         std::cout << "\nMenu Realizar Venta" << std::endl;
+        std::cout<<std::endl;
         std::cout << "1. Ver surtidores activos." << std::endl;
         std::cout << "2. Volver al menu principal." << std::endl;
         std::cout << "Seleccione la opcion que desee consultar: ";
         std::cin >> opcion;
+
+        verificarOpcion(opcion, 1, 2);
 
         switch (opcion)
         {
