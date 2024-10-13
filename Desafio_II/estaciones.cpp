@@ -3,17 +3,20 @@
 #include <cstdlib> // Para rand() y srand()
 #include <ctime>   // Para time()
 
+
+
 // Constructores
-Estaciones::Estaciones(std::string _nombreEstacion, int _codigoEstacion,std::string  _gerente, int _region, float _ubicacionGPS[2], float _preciosCombustible[3][3])
+// Definir los parametros del constructor
+Estaciones::Estaciones(std::string _nombreEstacion, short _codigoEstacion,std::string  _gerente, short _region, float _ubicacionGPS[2], float _preciosCombustible[3][3])
 {
     nombreEstacion=_nombreEstacion;
     codigoEstacion=_codigoEstacion;
     gerente=_gerente;
-    region=_region;
-    ubicacionGPS[0] = _ubicacionGPS[0];
-    ubicacionGPS[1] = _ubicacionGPS[1];
+    region=_region; //0=sur, 1=centro, 2=norte
+    ubicacionGPS[0] = _ubicacionGPS[0]; //latitud del gps
+    ubicacionGPS[1] = _ubicacionGPS[1]; //longitud del gps
     
-    
+    //fijar el precio del combustible en cada estacion
     for(int i=0; i<3; i++) //Las columnas son Sur/Centro/Norte, las filas son el tipo de gasolina, Regular/Premium/EcoExtra
     {
         for(int j=0; j<3; j++)
@@ -23,7 +26,9 @@ Estaciones::Estaciones(std::string _nombreEstacion, int _codigoEstacion,std::str
     }
     
 }
-Estaciones::Estaciones() {
+
+Estaciones::Estaciones()
+{
     // Inicialización por defecto
     nombreEstacion = "";
     codigoEstacion = 0;
@@ -36,16 +41,18 @@ Estaciones::Estaciones() {
     //definir capacidad tanques Regular/Premium/Eco
     
     // Inicializa la semilla del generador de números aleatorios
-    srand(static_cast<unsigned int>(time(0)));
+    srand(static_cast<int>(time(0)));
 
 
     // Asignar valores aleatorios entre 100 y 200
-    for (int i = 0; i < 3; ++i) {
-        Capacidad_tanque[i] = static_cast<float>(rand() % 101 + 100); // Genera un número entre 100 y 200
+    for (int i = 0; i < 3; ++i)
+    {
+        Capacidad_tanque[i] = static_cast<int>(rand() % 101 + 100); // Genera un número entre 100 y 200
     }
     
     //inicializar historial en 0
-    for (int i=0; i<4; i++) {
+    for (int i=0; i<4; i++)
+    {
         historial_Ventas[i]=0.0;
     }
     
@@ -61,7 +68,8 @@ Estaciones::Estaciones() {
 
 //Implementacion metodos
 
-void Estaciones::venta(float _metodo_pago, float _cant_L, float _fecha, float _hora, float _categoria, int tipo_gal){
+void Estaciones::venta(float _metodo_pago, float _cant_L, float _fecha, float _hora, float _categoria, int tipo_gal)
+{
     int precio_cobrar=0;
     int aux_capacidad=0;
     
@@ -69,12 +77,14 @@ void Estaciones::venta(float _metodo_pago, float _cant_L, float _fecha, float _h
     aux_capacidad=Capacidad_tanque[tipo_gal]-_cant_L; // utilizar variable aux para verificar si hay suficiente para vender, si no vender lo que hay
     
     //verificar si el tanque se vacio
-    if (aux_capacidad<=0){
+    if (aux_capacidad<=0)
+    {
         _cant_L=_cant_L-Capacidad_tanque[tipo_gal];
         Capacidad_tanque[tipo_gal]=0; //evitar negativos
         //desactivar surtidores
     }
-    else {
+    else
+    {
         Capacidad_tanque[tipo_gal]=Capacidad_tanque[tipo_gal]-_cant_L;
     }
     
@@ -88,22 +98,18 @@ void Estaciones::venta(float _metodo_pago, float _cant_L, float _fecha, float _h
     historial_Transacciones[3] = _hora;         // Hora
     historial_Transacciones[4] = _categoria;    // Categoría de gasolina
     
-    
 
     //Guardar valores totales de ventas
     precio_cobrar=preciosCombustible[region][tipo_gal]*_cant_L; //Las columnas son Sur/Centro/Norte, las filas son el tipo de gasolina, Regular/Premium/Eco
     historial_Ventas[0]=historial_Ventas[0]+precio_cobrar ; // venta total
-    historial_Ventas[tipo_gal+1]=historial_Ventas[tipo_gal+1]+precio_cobrar ; // venta tipo gasolina
-    
-    
-     
-    
-    
+    historial_Ventas[tipo_gal+1]=historial_Ventas[tipo_gal+1]+precio_cobrar ; // venta tipo gasolina 
 }
+
 
 //Implementacion get y set Nombre Estacion
 
-int Estaciones::getregion(){
+int Estaciones::getregion()
+{
     return region;
 
 }
@@ -112,6 +118,7 @@ void Estaciones::setNombreEstacion(std::string _nombreEstacion)
 {
     nombreEstacion=_nombreEstacion;
 }
+
 std::string Estaciones::getNombreEstacion() const
 {
     return nombreEstacion;

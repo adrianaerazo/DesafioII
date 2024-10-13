@@ -14,7 +14,7 @@ private:
     Estaciones* arregloEstaciones; //  arreglo de Estaciones
     
     public:
-        float ventasTotales;
+        int ventasTotales;
 
 
 

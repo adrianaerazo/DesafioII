@@ -2,7 +2,8 @@
 #include "estaciones.h"
 #include <iostream>
 
-int main() {
+int main()
+{
     int aux = 0;
 
     // Crear una empresa con capacidad para 5 estaciones

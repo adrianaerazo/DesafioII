@@ -2,12 +2,14 @@
 #include "estaciones.h"
 
 
+
 // Constructor
 Empresa::Empresa(std::string _nombreEmpresa, int _numeroEstaciones )
 {
     // Inicializar el arreglo dinámico de Estaciones
     numeroEstaciones_actual = 0; // Empieza en 0 porque no sean creado Estaciones aun
     numeroEstaciones_total=_numeroEstaciones;
+
     // Asignar memoria dinámica para el arreglo de Estaciones
     nombreEmpresa=_nombreEmpresa;
     ventasTotales=0;
@@ -18,7 +20,7 @@ Empresa::Empresa(std::string _nombreEmpresa, int _numeroEstaciones )
 
 
     //Poner precios que aumentan de 1000 en 1000
-    int aux_precio=10000;
+    int aux_precio=1000;
     for(int i=0; i<3; i++)
     {
         for(int j=0; j<3; j++)
@@ -30,14 +32,17 @@ Empresa::Empresa(std::string _nombreEmpresa, int _numeroEstaciones )
 }
 
 // Destructor
-Empresa::~Empresa() {
+Empresa::~Empresa()
+{
     delete[] arregloEstaciones;
 
 }
-void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, std::string _gerente, int _region, float _ubicacionGPS[2]) {
 
+void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, std::string _gerente, int _region, float _ubicacionGPS[2])
+{
     // Verificamos si necesitamos redimensionar el arreglo
-    if (numeroEstaciones_actual == numeroEstaciones_total) {
+    if (numeroEstaciones_actual == numeroEstaciones_total)
+    {
         // Si el arreglo está lleno, duplicamos la capacidad
         numeroEstaciones_total *= 2;  // Doblamos la capacidad del arreglo
 
@@ -45,7 +50,8 @@ void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, st
         Estaciones* nuevoArreglo = new Estaciones[numeroEstaciones_total];
 
         // Copiamos las estaciones existentes al nuevo arreglo
-        for (int i = 0; i < numeroEstaciones_actual; i++) {
+        for (int i = 0; i < numeroEstaciones_actual; i++)
+        {
             nuevoArreglo[i] = arregloEstaciones[i];
         }
 
@@ -57,7 +63,7 @@ void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, st
     }
 
     // Asignar los valores a la nueva estación en el arreglo, usando acceso directo a los atributos públicos
-    arregloEstaciones[numeroEstaciones_actual]=Estaciones(_nombreEstacion, _codigoEstacion, _gerente, _region, _ubicacionGPS,preciosCombustible);
+    arregloEstaciones[numeroEstaciones_actual]=Estaciones(_nombreEstacion, _codigoEstacion, _gerente, _region, _ubicacionGPS, preciosCombustible);
 
     // Incrementar el número de estaciones
     numeroEstaciones_actual++;  // Incrementamos el número de estaciones
@@ -66,27 +72,34 @@ void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, st
 }
 
 
-// Método para eliminar una estación por su índice
-void Empresa::eliminarEstacion(int indice) {
-    if (indice >= 0 && indice < numeroEstaciones_actual) {
+// Método para eliminar una estación por su posicion
+void Empresa::eliminarEstacion(int indice)
+{
+    if (indice >= 0 && indice < numeroEstaciones_actual)
+    {
         // Mover las estaciones hacia adelante a partir del índice
-        for (int i = indice; i < numeroEstaciones_actual - 1; i++) {
+        for (int i = indice; i < numeroEstaciones_actual - 1; i++)
+        {
             arregloEstaciones[i] = arregloEstaciones[i + 1];
         }
 
         numeroEstaciones_actual = numeroEstaciones_actual - 1; // Reducimos el número de estaciones actuales
 
         std::cout << "Estacion eliminada correctamente.\n";
-    } else {
-        std::cout << "Indice fuera de rango. No se pudo eliminar la estacion.\n";
+    }
+    else
+    {
+        std::cout << "Posicion fuera de rango. No se pudo eliminar la estacion.\n";
     }
 }
 
-int Empresa::calculoMontoTotal(){
+int Empresa::calculoMontoTotal()
+{
     
-    std::cout << "Nombre " << "Region "<<" Venta T" << " Venta R" << " Venta P" << " Venta Ec.\n";
+    std::cout << "Nombre " << " Region "<<" Venta Total " << " V. Regular" << " V. Premium " << " V. EcoExtra\n";
     
-    for (int i= 0; i<numeroEstaciones_actual;i++){
+    for (int i= 0; i<numeroEstaciones_actual;i++)
+    {
         ventasTotales=ventasTotales+arregloEstaciones[i].historial_Ventas[0];
          std::cout <<nombreEmpresa <<arregloEstaciones[i].getregion()<< arregloEstaciones[i].historial_Ventas[0] << arregloEstaciones[i].historial_Ventas[1] << arregloEstaciones[i].historial_Ventas[2] << arregloEstaciones[i].historial_Ventas[3]<<".\n";
     }
@@ -96,11 +109,13 @@ int Empresa::calculoMontoTotal(){
     return ventasTotales;
 }
 
-int Empresa::getnumeroEstaciones_actual(){
+int Empresa::getnumeroEstaciones_actual()
+{
     return numeroEstaciones_actual;
 }
 
-std::string Empresa::getnombreEmpresa(){
+std::string Empresa::getnombreEmpresa()
+{
     return nombreEmpresa;
 }
 

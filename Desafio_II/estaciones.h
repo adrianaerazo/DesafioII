@@ -10,25 +10,25 @@ private:
     std::string nombreEstacion;
     int codigoEstacion;
     std::string gerente;
-    int region;
-    float ubicacionGPS[2];
-    float preciosCombustible[3][3];
-    int Capacidad_tanque[3];
+    int region;//0=sur, 1=centro, 2=norte
+    float ubicacionGPS[2];//Latitud y longitud
+    float preciosCombustible[3][3];//arreglo de precios 3x3
+    int Capacidad_tanque[3];//los 3 valores, el regular, premium, ecoextra
     
 public:
-    float historial_Ventas[4]; // venta total, venta regular ,venta prem , regular eco
+    float historial_Ventas[4]; // venta total, venta regular ,venta prem , venta eco
     float *historial_Transacciones; // info: metodo_pago, cantidad L vendida ,fecha ,hora, categoria de gasolina
     int numero_ventas;
-    //float historial_Transacciones[5]; 
+    //float historial_Transacciones[5];
 
 public:
     // Constructor
     Estaciones();
-    Estaciones(std::string _nombreEstacion, int _codigoEstacion, std::string _gerente, int _region, float _ubicacionGPS[2], float _preciosCombustible[3][3]);
+    Estaciones(std::string _nombreEstacion, short _codigoEstacion, std::string _gerente, short _region, float _ubicacionGPS[2], float _preciosCombustible[3][3]);
     
     //Definir metodos
 
-    void venta(float _metodo_pago, float _cant_L, float _fecha, float _hora, float _categoria, int tipo_gal);
+    void venta(float _metodo_pago, float _cant_L, float _fecha, float _hora, int tipo_gal);
 
     //Definir set y get Nombre Estacion
     void setNombreEstacion(std::string _nombreEstacion);

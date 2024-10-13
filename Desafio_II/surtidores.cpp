@@ -1,3 +1,6 @@
 #include "surtidores.h"
 
-Surtidores::Surtidores() {}
+Surtidores::Surtidores()
+{
+
+}
