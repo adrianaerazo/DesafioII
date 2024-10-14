@@ -6,7 +6,7 @@
 
 class Islas
 {
-private:
+public:
     //Definir atributos
     int NumSurtidores_actual; // numero de surtidores asignados a la isla
     int CapacidadSurtidores; // capacidad actual de surtidores que la isla soporta

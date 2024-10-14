@@ -20,11 +20,12 @@ private:
 public:
     int aux_Surtidore_sinAsignar=0; 
     int numero_total_surtidores; //aleatorio entre 2 y 12
-    float historial_Ventas[4]; // venta total, venta regular ,venta prem , venta eco
-    float *historial_Transacciones; // info: metodo_pago, cantidad L vendida ,fecha ,hora, categoria de gasolina
+    int historial_Ventas[4]; // venta total, venta regular ,venta prem , venta eco
+    int** historial_Transacciones; ; // info: metodo_pago, cantidad L vendida ,fecha ,hora, categoria de gasolina
     int numero_ventas;
     int NumIslas_actual;
     int CapacidadIslas;
+    int NumTransacciones;
     void crearIsla(int _CapacidadSurtidores);
     void eliminarIsla(int _codigoIsla);
     //float historial_Transacciones[5];
@@ -36,7 +37,8 @@ public:
     ~Estaciones(); // Destructor
     //Definir metodos
 
-    void venta(float _metodo_pago, float _cant_L, float _fecha, float _hora, int tipo_gal);
+    void venta(int _metodo_pago, int _cant_L, int tipo_gal);
+    void redimensionarTransacciones();
 
     //Definir set y get Nombre Estacion
     void setNombreEstacion(std::string _nombreEstacion);

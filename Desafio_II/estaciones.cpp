@@ -65,6 +65,13 @@ Estaciones::Estaciones(std::string _nombreEstacion, short _codigoEstacion,std::s
 Estaciones::Estaciones()
 {
     // Inicialización por defecto
+    NumTransacciones=20;
+    // Inicializar el arreglo bidimensional con la capacidad inicial
+    historial_Transacciones = new int*[NumTransacciones];
+    for (int i = 0; i < NumTransacciones; i++) {
+        historial_Transacciones[i] = new int[6];  // Cada fila tendrá 6 columnas
+    }
+    
     aux_Surtidore_sinAsignar=0;
     nombreEstacion = "";
     codigoEstacion = 0;
@@ -105,58 +112,86 @@ Estaciones::Estaciones()
 Estaciones::~Estaciones()
 {
     delete[] arregloIslas;
-    delete[] historial_Transacciones;
+    for (int i = 0; i < NumTransacciones; i++) {
+        delete[] historial_Transacciones[i];
+    }
 
 }
 
 //Implementacion metodos
 
-void Estaciones::venta(float _metodo_pago, float _cant_L, float _fecha, float _hora, int tipo_gal)
+void Estaciones::redimensionarTransacciones(){
+    
+    // Aumentar la capacidad al doble
+    int nuevaCapacidad = NumTransacciones * 2;
+
+    // Crear un nuevo arreglo bidimensional con la nueva capacidad
+    int** nuevoArreglo = new int*[nuevaCapacidad];
+    for (int i = 0; i < nuevaCapacidad; i++) {
+        nuevoArreglo[i] = new int[6];  // Cada fila sigue teniendo 6 columnas
+    }
+
+    // Copiar los datos del arreglo antiguo al nuevo
+    for (int i = 0; i < numero_ventas; i++) {
+        for (int j = 0; j < 6; j++) {
+            nuevoArreglo[i][j] = historial_Transacciones[i][j];
+        }
+    }
+
+    // Liberar la memoria del arreglo antiguo
+    for (int i = 0; i < NumTransacciones; i++) {
+        delete[] historial_Transacciones[i];
+    }
+    delete[] historial_Transacciones;
+
+    // Asignar el nuevo arreglo y actualizar la capacidad
+    historial_Transacciones = nuevoArreglo;
+    NumTransacciones = nuevaCapacidad;
+
+}
+
+void Estaciones::venta(int _metodo_pago, int _cant_L, int tipo_gal)
 {
-    //int precio_cobrar=0; almacena la operacion de la multiplicacion del precio * la cantidad de litros
-    int precio_cobrar=0;
-    //int aux_capacidad=0; almacena el valor, para verificar si el combustible del tanque es suficiente para la venta,
-    //si la operacion obtiene como resultado un numero negativo, quiere decir que el tanque no cuenta con lo suficiente
-    int aux_capacidad = Capacidad_tanque[tipo_gal] - _cant_L;
-    
-    //Actualizar cantidad de combustible en los tanques (Regular/Premium/Eco)
-    aux_capacidad=Capacidad_tanque[tipo_gal]-_cant_L; // utilizar variable aux para verificar si hay suficiente para vender, si no vender lo que hay
-    
-    //verificar si el tanque esta contiene la cantidad necesaria para la venta
-    //si la cantidad solicitada es negativa, se vende lo que hay y se vacia el tanque
-    if (aux_capacidad<=0)
-    {
-        //la cantidad de litros solicitada pasa a ser la cantidad que hay en el tanque
-        _cant_L=Capacidad_tanque[tipo_gal];//se vende lo del tanque
-        //se actualiza el tanque
-        Capacidad_tanque[tipo_gal]=0; //evitar negativos
-        //desactivar surtidores
+    bool asignado= false;
+    int isla_seleccionada=0;
+    int surtidor_seleccionado=0;
+    while(asignado==false){ // buscar aleatoriamente un sutidor. Se realizara hasta encontrar uno activo
+        
+        isla_seleccionada = std::rand() % NumIslas_actual;  // Seleccionar isla aleatoria
+        surtidor_seleccionado= std::rand() % arregloIslas[isla_seleccionada].NumSurtidores_actual;// Seleccionar surtidor de la isla aleatoria
+        if (arregloIslas[isla_seleccionada].arregloSurtidores[surtidor_seleccionado].surtidorActivo==true){
+        asignado=true;
+         }
     }
-    else
-    {
-        //si el tanque puede vender sin problema, se actualiza la cantidad de la categoria en especifico del tanque
-        Capacidad_tanque[tipo_gal]=Capacidad_tanque[tipo_gal]-_cant_L;
+    //empezar venta con el surtidor seleccionado
+    
+    int capacidad_tanque_venta=Capacidad_tanque[tipo_gal]; // tanque seleccionado segun tipo gasolina
+    int precioCombustible_venta=preciosCombustible[region][tipo_gal]; // precio de gal seleccionada
+    // realizar venta y obtener nueva capacidad del tanque y info de venta, luego de venta
+    int* resultado =arregloIslas[isla_seleccionada].arregloSurtidores[surtidor_seleccionado].ventaSurtidor( _metodo_pago, _cant_L, tipo_gal, capacidad_tanque_venta, precioCombustible_venta);
+    
+    Capacidad_tanque[tipo_gal]=resultado[0];
+    if (numero_ventas==NumTransacciones){ // si el num ventas llega al max de transacciones, aumentar espacio
+        redimensionarTransacciones();
     }
+    // Asignar los valores a la siguiente fila disponible
+    // guardar informacion de venta    
+    int indice_numVenta=resultado[1];
+    historial_Transacciones[numero_ventas] = arregloIslas[isla_seleccionada].arregloSurtidores[surtidor_seleccionado].historial_Transacciones[indice_numVenta];
     
-    //Informacion de venta
-    historial_Transacciones = new float[5]();// info: metodo_pago, cantidad L vendida ,fecha ,hora, categoria de gasolina, precio_cobrar
-    //historial_Transacciones = static float[6]();// 
-    // Asignar valores a cada elemento del arreglo
-    historial_Transacciones[0] = _metodo_pago;  // Método de pago
-    historial_Transacciones[1] = _cant_L;       // Cantidad de litros vendida
-    historial_Transacciones[2] = _fecha;        // Fecha
-    historial_Transacciones[3] = _hora;         // Hora
-    historial_Transacciones[4] = tipo_gal;    // Categoría de gasolina
-
-    
-
+    //sumar ventas del surtidor
     //Guardar valores totales de ventas
-    precio_cobrar=preciosCombustible[region][tipo_gal]*_cant_L; //Las columnas son Sur/Centro/Norte, las filas son el tipo de gasolina, Regular/Premium/Eco
+    int precio_cobrar=historial_Transacciones[numero_ventas][5]; // sacar info de la proporcionada por el surtidor
     historial_Ventas[0]=historial_Ventas[0]+precio_cobrar ; // venta total
     historial_Ventas[tipo_gal+1]=historial_Ventas[tipo_gal+1]+precio_cobrar ; // venta tipo gasolina
+    
+    numero_ventas=numero_ventas + 1;
+    
 
-    //asignar el valor monetario al historial de transacciones
-    historial_Transacciones[5] = precio_cobrar; //precio por transaccion cobrada
+    delete[] resultado;  // Libera la memoria asignada con 'new[]'
+    
+    
+    
 }
 
 

@@ -7,7 +7,7 @@
 
 void menuPrincipal(Empresa& empresaTerMax);
 void menuEmpresa(Empresa& empresaTerMax);
-void menuEstaciones();
+void menuEstaciones(Empresa& empresaTerMax);
 void menuSurtidorVenta();
 
 int main()
@@ -71,7 +71,7 @@ void menuPrincipal(Empresa &empresaTerMax)
         }
         case 2:
         {
-            menuEstaciones();
+            menuEstaciones(empresaTerMax);
             break;
         }
         case 3:
@@ -100,7 +100,7 @@ void menuEmpresa(Empresa &empresaTerMax)
         std::cout << "\nMenu Gestionar Empresa" << std::endl;
         std::cout<<std::endl;
         std::cout << "1. Agregar estaciones de servicio." << std::endl;
-        std::cout << "2. Eliminar una E/S de la red nacional." << std::endl;
+        std::cout << "2. Eliminar una estacion de servicio." << std::endl;
         std::cout << "3. Calcular el monto total de las ventas en cada E/S del pais, discriminado por categoria de combustible." << std::endl;
         std::cout << "4. Cambiar los precios del combustible para toda la red." << std::endl;
         std::cout << "5. Volver al menu principal." << std::endl;
@@ -114,6 +114,7 @@ void menuEmpresa(Empresa &empresaTerMax)
         case 1:
         {
             // Agregar estaciones de servicio
+            std::cout<<std::endl;
             std::cout << "Datos para crear la estacion: "<<std::endl;
             std::string nombreEstacion;
             int codigoEstacion;
@@ -124,11 +125,11 @@ void menuEmpresa(Empresa &empresaTerMax)
 
             std::cout << "Ingrese el nombre de la estacion: ";
             std::cin >> nombreEstacion;
-            std::cout << "Ingrese el código de la estacion: ";
+            std::cout << "Ingrese el codigo de la estacion: ";
             std::cin >> codigoEstacion;
             std::cout << "Ingrese el nombre del gerente: ";
             std::cin >> gerente;
-            std::cout << "Ingrese la región (0=Sur, 1=Centro, 2=Norte): ";
+            std::cout << "Ingrese la region (0=Sur, 1=Centro, 2=Norte): ";
             std::cin >> region;
             std::cout << "Ingrese la latitud: ";
             std::cin >> ubicacionGPS[0];
@@ -138,6 +139,38 @@ void menuEmpresa(Empresa &empresaTerMax)
             std::cin>>islas;
 
             empresaTerMax.crearEstacion(nombreEstacion, codigoEstacion, gerente, region, ubicacionGPS, empresaTerMax.getPreciosCombustible(), islas);
+            std::cout<<"Estacion creada exitosamente"<<std::endl;
+            std::cout<<std::endl;
+
+            std::cout<<"Actualizacion de estaciones: "<<std::endl;
+            std::cout<<std::endl;
+            for (int i = 0; i <= empresaTerMax.getnumeroEstaciones_actual(); i++)
+            {
+                for(int j = 1; j <= empresaTerMax.getnumeroEstaciones_actual(); j++)
+                {
+                    std::cout <<j<<". Estacion: ";
+                    std::cout << empresaTerMax.arregloEstaciones[i].getNombreEstacion() << std::endl;
+                }
+            }
+            int opcion;
+            std::cout<<std::endl;
+            std::cout<<"Seleccione una opcion: "<<std::endl;
+            std::cout<<"1. Volver al menu gestion de empresa. "<<std::endl;
+            std::cout<<"2. Volver al menu principal. "<<std::endl;
+            std::cout<<"Ingrese la opcion: ";
+            std::cin>>opcion;
+            verificarOpcion(opcion, 1, 2);
+            switch (opcion)
+            {
+            case 1:
+            {
+              menuEmpresa(empresaTerMax);
+            }
+            default:
+            {
+                menuPrincipal(empresaTerMax);
+            }
+            }
             break;
         }
         case 2:
@@ -187,7 +220,7 @@ void menuEmpresa(Empresa &empresaTerMax)
     while (opcion != 5);
 }
 
-void menuEstaciones()
+void menuEstaciones(Empresa &empresaTerMax)
 {
     int opcion = 0;
 
@@ -214,27 +247,30 @@ void menuEstaciones()
         {
             std::cout << "Agregar surtidor a la estacion" << std::endl;
             std::cout << std::endl;
-            std::cout << "LISTADO DE ESTACIONES"<<std::endl;
+            std::cout << "LISTADO DE ESTACIONES" <<std::endl;
 
-            for(int i=0; i < empresaTerMax.numeroEstaciones_total; i++)
+            for (int i = 0; i <= empresaTerMax.getnumeroEstaciones_actual(); i++)
             {
-                std::cout<<empresaTerMax.arregloEstaciones[i][0]<<std::endl;
+                for(int j = 1; j <= empresaTerMax.getnumeroEstaciones_actual(); j++)
+                {
+                    std::cout <<j<<". Estacion: ";
+                    std::cout << empresaTerMax.arregloEstaciones[i].getNombreEstacion() << std::endl;
+                }
             }
+            int opcion;
+            std::cout <<std::endl;
+            std::cout << "Seleccione la estacion a la que le quiere agregar el surtidor: ";
+            std::cin>>opcion;
 
-
-
+            verificarOpcion(opcion, 1, empresaTerMax.getnumeroEstaciones_actual());
+            std::cout <<"Estacion "<<empresaTerMax.arregloEstaciones[opcion].getNombreEstacion()<<std::endl;
             int codigoSurtidorMenu=0;
-            std::string modeloSurtidorMenu;
-
-            std::cout << "Tenga en cuenta que necesita el codigo y el modelo del surtidor a agregar."<<std::endl;
+            std::cout << "Tenga en cuenta que necesita el codigo del surtidor a agregar."<<std::endl;
             std::cout << std::endl;
             std::cout << "Ingrese el codigo del surtidor: ";
             std::cin >>codigoSurtidorMenu;
-            std::cout << "Ingrese el modelo del surtidor: ";
-            std::cin >> modeloSurtidorMenu;
 
 
-            empresaTerMax. agregarSurtidor(int codigoSurtidor, std::string modeloSurtidor)
             break;
         }
         case 2:
@@ -287,3 +323,4 @@ void menuSurtidorVenta()
     }
     while (opcion != 2);
 }
+
