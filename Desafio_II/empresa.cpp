@@ -17,8 +17,6 @@ Empresa::Empresa(std::string _nombreEmpresa, int _numeroEstaciones)
     arregloEstaciones = new Estaciones[numeroEstaciones_total];  // Asignación de memoria dinámica
 
 
-
-
     //Poner precios que aumentan de 1000 en 1000
     //por defecto, en automatico
     int aux_precio=1000;
@@ -40,7 +38,7 @@ Empresa::~Empresa()
 
 }
 
-void Empresa::crearEstacion(std::string _nombreEstacion, std::string _gerente, short _region, float _ubicacionGPS[2], int preciosCombustible[3][3], int _CapacidadIslas)
+void Empresa::crearEstacion(std::string _nombreEstacion,int codigoEstacion, std::string _gerente, short _region, float _ubicacionGPS[2], int preciosCombustible[3][3], int _CapacidadIslas)
 {
     // Verificamos si necesitamos redimensionar el arreglo
     if (numeroEstaciones_actual == numeroEstaciones_total)
@@ -141,7 +139,8 @@ void Empresa::cambiarPrecio(int precioBase, int precioAumentar)
     }
 }
 
-int (*Empresa::getPreciosCombustible())[3] {
+int (*Empresa::getPreciosCombustible())[3]
+{
     return preciosCombustible;
 }
 
