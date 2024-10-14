@@ -5,21 +5,21 @@
 #include <cstdlib> // Para rand() y srand()
 #include <ctime>   // Para time()
 
-void menuPrincipal(Empresa& miEmpresa);
-void menuEmpresa(Empresa& miEmpresa);
+void menuPrincipal(Empresa& empresaTerMax);
+void menuEmpresa(Empresa& empresaTerMax);
 void menuEstaciones();
-void menuSurtidorVenta(Surtidores& surtidor);
+void menuSurtidorVenta();
 
 int main()
 {
-    // Inicializar la semilla del generador de números aleatorios
+    // Inicializar la semilla del generador de numeros aleatorios
     srand(static_cast<int>(time(0)));
 
     // Crear una empresa con capacidad para 5 estaciones
-    Empresa miEmpresa("TerMax", 5);
+    Empresa empresaTerMax("TerMax", 5);
 
-    // Mostrar el menú principal
-    menuPrincipal(miEmpresa);
+    // Mostrar el menu principal
+    menuPrincipal(empresaTerMax);
 
     return 0;
 }
@@ -30,26 +30,24 @@ void verificarOpcion(int& ingresado, int minimo, int maximo)
 
     while (!esValido)
     {
-        std::cin >> ingresado;
-
-        // Verificar si la entrada es válida (número) y está dentro del rango
+        // Verificar si la entrada es valida (numero) y esta dentro del rango
         if (std::cin && ingresado >= minimo && ingresado <= maximo)
         {
             esValido = true;  // Entrada válida
         }
         else
         {
-            std::cin.clear(); // Limpiar el estado de error (por si ingresó un carácter no numérico)
-            std::cin.ignore(1000, '\n'); // Limpiar el resto de la línea, puede eliminar hasta mil carceteres hsta encontrar el salto de linea
+            std::cin.clear(); // Limpiar el estado de error (por si ingreso un caracter no numerico)
+            std::cin.ignore(1000, '\n'); // Limpiar el resto de la linea, puede eliminar hasta mil carceteres hsta encontrar el salto de linea
 
-            std::cout << "Opción inválida, por favor ingrese un número válido dentro del rango." << std::endl;
-            std::cout << "Ingrese una opción entre " << minimo << " y " << maximo << ": ";
+            std::cout << "Opcion invalida, por favor ingrese un numero valido dentro del rango." << std::endl;
+            std::cout << "Ingrese una opcion entre " << minimo << " y " << maximo << ". "<<std::endl;
         }
     }
 }
-void menuPrincipal(Empresa& miEmpresa)
+void menuPrincipal(Empresa &empresaTerMax)
 {
-    int opcion = 0;
+    int opcion=0;
 
     do
     {
@@ -68,30 +66,17 @@ void menuPrincipal(Empresa& miEmpresa)
         {
         case 1:
         {
-            menuEmpresa(miEmpresa);
+            menuEmpresa(empresaTerMax);
             break;
         }
         case 2:
         {
             menuEstaciones();
-            // Aquí puedes agregar la logica para elegir una estación
-            // temporalmente llamamos a la primera estación
-            // pero deberías permitir al usuario seleccionar una
-           // if (miEmpresa.getnumeroEstaciones_actual() > 0)
-            //{
-            //    menuEstaciones(miEmpresa.getEstacion(0)); // Pasa la primera estacion como ejemplo
-            //}
-            //else
-            //{
-            //    std::cout << "No hay estaciones disponibles." << std::endl;
-            //}
             break;
         }
         case 3:
         {
-            // De nuevo, temporalmente elegimos la primera estación
-            Surtidores surtidor; // Debes tener un surtidor adecuado asociado a la estación
-            menuSurtidorVenta(surtidor);
+            menuSurtidorVenta();
             break;
         }
         case 4:
@@ -100,12 +85,13 @@ void menuPrincipal(Empresa& miEmpresa)
             break;
         }
         default:
-            std::cout << "Opcion no valida. Intente de nuevo." << std::endl;
+            std::cout << std::endl;
         }
-    } while (opcion != 4);
+    }
+    while (opcion != 4);
 }
 
-void menuEmpresa(Empresa& miEmpresa)
+void menuEmpresa(Empresa &empresaTerMax)
 {
     int opcion = 0;
 
@@ -128,11 +114,13 @@ void menuEmpresa(Empresa& miEmpresa)
         case 1:
         {
             // Agregar estaciones de servicio
+            std::cout << "Datos para crear la estacion: "<<std::endl;
             std::string nombreEstacion;
             int codigoEstacion;
             std::string gerente;
             short region;
             float ubicacionGPS[2];
+            short islas;
 
             std::cout << "Ingrese el nombre de la estacion: ";
             std::cin >> nombreEstacion;
@@ -146,41 +134,45 @@ void menuEmpresa(Empresa& miEmpresa)
             std::cin >> ubicacionGPS[0];
             std::cout << "Ingrese la longitud: ";
             std::cin >> ubicacionGPS[1];
+            std::cout<<"Ingresa la cantidad de islas: ";
+            std::cin>>islas;
 
-            int preciosCombustible[3][3] =
-                {
-                    {1000, 4000, 7000},
-                    {2000, 5000, 8000},
-                    {3000, 6000, 10000}
-                };
-
-            miEmpresa.crearEstacion(nombreEstacion, codigoEstacion, gerente, region, ubicacionGPS, preciosCombustible);
+            empresaTerMax.crearEstacion(nombreEstacion, codigoEstacion, gerente, region, ubicacionGPS, empresaTerMax.getPreciosCombustible(), islas);
             break;
         }
         case 2:
         {
             // Eliminar una E/S de la red nacional
+            std::cout<<"Datos para eliminar la estacion: "<<std::endl;
             int indice;
-            std::cout << "Ingrese el indice de la estacion a eliminar: ";
+            std::cout << "Ingrese el codigo de la estacion a eliminar: ";
             std::cin >> indice;
-            miEmpresa.eliminarEstacion(indice);
+            empresaTerMax.eliminarEstacion(indice);
             break;
         }
         case 3:
         {
             // Calcular el monto total de las ventas en cada E/S
-            miEmpresa.calculoMontoTotal();
+            std::cout << "Calculo ventas totales de cada estacion: "<< std::endl;
+            empresaTerMax.calculoMontoTotal();
             break;
         }
         case 4:
         {
             // Fijar precios del combustible para toda la red
+            std::cout << "Cambiar los precios para toda la red: " << std::endl;
+            std::cout<<std::endl;
+            std::cout << "A TENER EN CUENTA:" << std::endl;
+            std::cout << "El precio base es el que se toma como valor constante, "<<std::endl;
+            std::cout << "el incremento de precio es para hacer las cuentas automaticas. " << std::endl;
+            std::cout << std::endl;
+
             int precioBase, precioAumentar;
             std::cout << "Ingrese el precio base: ";
             std::cin >> precioBase;
             std::cout << "Ingrese el incremento de precio: ";
             std::cin >> precioAumentar;
-            miEmpresa.cambiarPrecio(precioBase, precioAumentar);
+            empresaTerMax.cambiarPrecio(precioBase, precioAumentar);
             break;
         }
         case 5:
@@ -189,16 +181,18 @@ void menuEmpresa(Empresa& miEmpresa)
             break;
         }
         default:
-            std::cout << "Opcion no valida. Intente de nuevo." << std::endl;
+            std::cout << std::endl;
         }
-    } while (opcion != 5);
+    }
+    while (opcion != 5);
 }
 
 void menuEstaciones()
 {
     int opcion = 0;
 
-    do {
+    do
+    {
         std::cout << "\nMenu Gestionar Estaciones" << std::endl;
         std::cout<<std::endl;
         std::cout << "1. Agregar surtidor a la estacion." << std::endl;
@@ -213,17 +207,39 @@ void menuEstaciones()
 
         verificarOpcion(opcion, 1, 7);
 
-        // Aquí debes implementar la funcionalidad para cada opción
+        // Aqui debes implementar la funcionalidad para cada opcion
         switch (opcion)
         {
         case 1:
         {
-            // Lógica para agregar surtidor
+            std::cout << "Agregar surtidor a la estacion" << std::endl;
+            std::cout << std::endl;
+            std::cout << "LISTADO DE ESTACIONES"<<std::endl;
+
+            for(int i=0; i < empresaTerMax.numeroEstaciones_total; i++)
+            {
+                std::cout<<empresaTerMax.arregloEstaciones[i][0]<<std::endl;
+            }
+
+
+
+            int codigoSurtidorMenu=0;
+            std::string modeloSurtidorMenu;
+
+            std::cout << "Tenga en cuenta que necesita el codigo y el modelo del surtidor a agregar."<<std::endl;
+            std::cout << std::endl;
+            std::cout << "Ingrese el codigo del surtidor: ";
+            std::cin >>codigoSurtidorMenu;
+            std::cout << "Ingrese el modelo del surtidor: ";
+            std::cin >> modeloSurtidorMenu;
+
+
+            empresaTerMax. agregarSurtidor(int codigoSurtidor, std::string modeloSurtidor)
             break;
         }
         case 2:
         {
-            // Lógica para eliminar surtidor
+            // Logica para eliminar surtidor
             break;
         }
         case 7:
@@ -232,13 +248,13 @@ void menuEstaciones()
             break;
         }
         default:
-            std::cout << "Opcion no valida. Intente de nuevo." << std::endl;
+            std::cout << std::endl;
         }
     }
     while (opcion != 7);
 }
 
-void menuSurtidorVenta(Surtidores& surtidor)
+void menuSurtidorVenta()
 {
     int opcion = 0;
 
@@ -257,7 +273,7 @@ void menuSurtidorVenta(Surtidores& surtidor)
         {
         case 1:
         {
-            // Lógica para ver surtidores activos
+            // Logica para ver surtidores activos
             break;
         }
         case 2:
@@ -266,7 +282,7 @@ void menuSurtidorVenta(Surtidores& surtidor)
             break;
         }
         default:
-            std::cout << "Opcion no valida. Intente de nuevo." << std::endl;
+            std::cout << std::endl;
         }
     }
     while (opcion != 2);

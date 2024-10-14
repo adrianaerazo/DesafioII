@@ -23,12 +23,14 @@ public:
     ~Empresa(); // Destructor
     //Definicion Metodos
 public:
-    void crearEstacion(std::string _nombreEstacion, int _codigoEstacion, std::string _gerente, short _region, float _ubicacionGPS[2], int preciosCombustible[3][3]);
+    void crearEstacion(std::string _nombreEstacion, std::string _gerente, short _region, float _ubicacionGPS[2], int preciosCombustible[3][3], int _CapacidadIslas);
     void eliminarEstacion(int indice);
     int getnumeroEstaciones_actual();
     std::string getnombreEmpresa();
     int calculoMontoTotal();
     void cambiarPrecio(int precioBase, int precioAumentar);
+    // Método get que devuelve un puntero al primer elemento del arreglo
+    int (*getPreciosCombustible())[3];
 
 };
 

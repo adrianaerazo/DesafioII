@@ -2,6 +2,7 @@
 #define ESTACIONES_H
 
 #include <string>
+#include "islas.h"
 
 class Estaciones
 {
@@ -14,18 +15,25 @@ private:
     float ubicacionGPS[2];//Latitud y longitud
     int preciosCombustible[3][3];//arreglo de precios 1x3
     short Capacidad_tanque[3];//los 3 valores, el regular, premium, ecoextra
+    Islas* arregloIslas; //  arreglo de Surtidores
     
 public:
+    int aux_Surtidore_sinAsignar=0; 
+    int numero_total_surtidores; //aleatorio entre 2 y 12
     float historial_Ventas[4]; // venta total, venta regular ,venta prem , venta eco
     float *historial_Transacciones; // info: metodo_pago, cantidad L vendida ,fecha ,hora, categoria de gasolina
     int numero_ventas;
+    int NumIslas_actual;
+    int CapacidadIslas;
+    void crearIsla(int _CapacidadSurtidores);
+    void eliminarIsla(int _codigoIsla);
     //float historial_Transacciones[5];
 
 public:
     // Constructor
     Estaciones();
-    Estaciones(std::string _nombreEstacion, short _codigoEstacion, std::string _gerente, short _region, float _ubicacionGPS[2], int _preciosCombustible[3][3]);
-    
+    Estaciones(std::string _nombreEstacion, short _codigoEstacion, std::string _gerente, short _region, float _ubicacionGPS[2], int _preciosCombustible[3][3], int _CapacidadIslas);
+    ~Estaciones(); // Destructor
     //Definir metodos
 
     void venta(float _metodo_pago, float _cant_L, float _fecha, float _hora, int tipo_gal);

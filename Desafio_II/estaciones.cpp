@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstdlib> // Para rand() y srand()
 #include <ctime>   // Para time()
+#include "islas.h"
 
 
 
@@ -11,8 +12,37 @@
 
 // Constructores
 // Definir los parametros del constructor
-Estaciones::Estaciones(std::string _nombreEstacion, short _codigoEstacion,std::string  _gerente, short _region, float _ubicacionGPS[2], int _preciosCombustible[3][3])
+Estaciones::Estaciones(std::string _nombreEstacion, short _codigoEstacion,std::string  _gerente, short _region, float _ubicacionGPS[2], int _preciosCombustible[3][3], int _NumIslas_actual)
 {
+    NumIslas_actual=0 ;
+    CapacidadIslas=NumIslas_actual;// islas a crear en principio
+    arregloIslas = new Islas[CapacidadIslas];  // Asignación de memoria dinámica
+    aux_Surtidore_sinAsignar=0; //se pone en 0 porque todos por defecto se asignan, ya luego se necesitara
+    
+    if (CapacidadIslas>12) { //verificar que el numero sea menor a 12, ya que no pueden existir mas de  12 islas
+        
+        CapacidadIslas=12;
+        std::cout << "El numero maximo de islas son 12" << std::endl;
+        std::cout << "La estacion se creo con 12 islas" << std::endl;
+    } 
+    
+    //inicialmente se va asignar 1 surtidor por cada isla a crear
+    if (CapacidadIslas>1){
+        numero_total_surtidores=_NumIslas_actual;
+        for (int i=0; i<_NumIslas_actual;i++){
+            
+            crearIsla(1);// i va a ser el codigo, la pos en el arreglo
+        }
+    }
+    else if(CapacidadIslas==1){ // si solo se quiere crear una isla, se asignan la cantidad minima de susrtidores totales, que son 2
+        
+        numero_total_surtidores=2;
+        crearIsla(2);// i va a ser el codigo, la pos en el arreglo
+    }
+
+    
+
+    
     nombreEstacion=_nombreEstacion;
     codigoEstacion=_codigoEstacion;
     gerente=_gerente;
@@ -35,6 +65,7 @@ Estaciones::Estaciones(std::string _nombreEstacion, short _codigoEstacion,std::s
 Estaciones::Estaciones()
 {
     // Inicialización por defecto
+    aux_Surtidore_sinAsignar=0;
     nombreEstacion = "";
     codigoEstacion = 0;
     gerente = "";
@@ -42,6 +73,8 @@ Estaciones::Estaciones()
     ubicacionGPS[0] = 0.0; //inicializa en 0.0 el valor de la latgitud
     ubicacionGPS[1] = 0.0; //inicializa en 0.0 el valor de la longitud
     numero_ventas=0;
+    NumIslas_actual=0; 
+    CapacidadIslas=1; 
     
     //definir capacidad tanques Regular/Premium/Eco
     // Inicializa la semilla del generador de números aleatorios
@@ -65,6 +98,14 @@ Estaciones::Estaciones()
         //inicializando los valores
         preciosCombustible[j];
     }
+
+}
+
+// Destructor
+Estaciones::~Estaciones()
+{
+    delete[] arregloIslas;
+    delete[] historial_Transacciones;
 
 }
 
@@ -98,8 +139,8 @@ void Estaciones::venta(float _metodo_pago, float _cant_L, float _fecha, float _h
     }
     
     //Informacion de venta
-    //historial_Transacciones = static float[6]();// // info: metodo_pago, cantidad L vendida ,fecha ,hora, categoria de gasolina, precio_cobrar
-    
+    historial_Transacciones = new float[5]();// info: metodo_pago, cantidad L vendida ,fecha ,hora, categoria de gasolina, precio_cobrar
+    //historial_Transacciones = static float[6]();// 
     // Asignar valores a cada elemento del arreglo
     historial_Transacciones[0] = _metodo_pago;  // Método de pago
     historial_Transacciones[1] = _cant_L;       // Cantidad de litros vendida
@@ -167,6 +208,63 @@ void Estaciones::actualizarPrecios(int nuevosPrecios[3][3])
             preciosCombustible[i][j] = nuevosPrecios[i][j];
         }
     }
+}
+
+
+void Estaciones::crearIsla(int _CapacidadSurtidores){
+  // Verificamos si necesitamos redimensionar el arreglo
+    if (NumIslas_actual == CapacidadIslas)
+    {
+        // Si el arreglo está lleno, duplicamos la capacidad
+        CapacidadIslas *= 2;  // Doblamos la capacidad del arreglo
+
+        // Creamos un nuevo arreglo con la nueva capacidad
+        Islas* nuevoArreglo = new Islas[CapacidadIslas];
+
+        // Copiamos las estaciones existentes al nuevo arreglo
+        for (int i = 0; i < NumIslas_actual; i++)
+        {
+            nuevoArreglo[i] = arregloIslas[i];
+        }
+
+        // Liberamos la memoria del arreglo antiguo
+        delete[] arregloIslas;
+
+        // Asignamos el nuevo arreglo al puntero
+        arregloIslas = nuevoArreglo;
+    }
+
+    // Asignar los valores al nuevo surtidor en el arreglo, usando acceso directo a los atributos públicos
+    arregloIslas[NumIslas_actual]=Islas( _CapacidadSurtidores, NumIslas_actual);
+
+    // Incrementar el número de surtidores
+    NumIslas_actual++;  // Incrementamos el número de surtidores
+
+    std::cout << "Isla creada correctamente." << std::endl;
+    
+}
+
+void Estaciones::eliminarIsla(int _codigoIsla){
+
+    if (_codigoIsla >= 0 && _codigoIsla < NumIslas_actual)
+    {
+        // Mover las estaciones hacia adelante a partir del índice
+        for (int i = _codigoIsla; i < NumIslas_actual - 1; i++)
+        {
+            arregloIslas[i] = arregloIslas[i + 1];
+        }
+
+        NumIslas_actual = NumIslas_actual - 1; // Reducimos el número de surtidores actuales
+
+        std::cout << "Isla eliminado correctamente.\n";
+    }
+    else
+    {
+        std::cout << "Posicion fuera de rango. No se pudo eliminar la isla.\n";
+    }
+    
+    
+    
 }
 
 void Estaciones::agregarSurtidor(int codigoSurtidor, std::string modeloSurtidor)

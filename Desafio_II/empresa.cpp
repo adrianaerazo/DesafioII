@@ -40,7 +40,7 @@ Empresa::~Empresa()
 
 }
 
-void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, std::string _gerente, short _region, float _ubicacionGPS[2], int preciosCombustible[3][3])
+void Empresa::crearEstacion(std::string _nombreEstacion, std::string _gerente, short _region, float _ubicacionGPS[2], int preciosCombustible[3][3], int _CapacidadIslas)
 {
     // Verificamos si necesitamos redimensionar el arreglo
     if (numeroEstaciones_actual == numeroEstaciones_total)
@@ -65,7 +65,7 @@ void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, st
     }
 
     // Asignar los valores a la nueva estación en el arreglo, usando acceso directo a los atributos públicos
-    arregloEstaciones[numeroEstaciones_actual]=Estaciones(_nombreEstacion, _codigoEstacion, _gerente, _region, _ubicacionGPS, preciosCombustible);
+    arregloEstaciones[numeroEstaciones_actual]=Estaciones(_nombreEstacion, numeroEstaciones_actual, _gerente, _region, _ubicacionGPS, preciosCombustible, _CapacidadIslas);
 
     // Incrementar el número de estaciones
     numeroEstaciones_actual++;  // Incrementamos el número de estaciones
@@ -77,6 +77,7 @@ void Empresa::crearEstacion(std::string _nombreEstacion, int _codigoEstacion, st
 // Método para eliminar una estación por su posicion
 void Empresa::eliminarEstacion(int indice)
 {
+
     if (indice >= 0 && indice < numeroEstaciones_actual)
     {
         // Mover las estaciones hacia adelante a partir del índice
@@ -140,6 +141,9 @@ void Empresa::cambiarPrecio(int precioBase, int precioAumentar)
     }
 }
 
+int (*Empresa::getPreciosCombustible())[3] {
+    return preciosCombustible;
+}
 
 
 

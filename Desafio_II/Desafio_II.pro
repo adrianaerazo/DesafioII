@@ -6,10 +6,12 @@ CONFIG -= qt
 SOURCES += \
         empresa.cpp \
         estaciones.cpp \
+        islas.cpp \
         main.cpp \
         surtidores.cpp
 
 HEADERS += \
     empresa.h \
     estaciones.h \
+    islas.h \
     surtidores.h
