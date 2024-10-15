@@ -5,10 +5,8 @@
 Islas::Islas()
 {
      NumSurtidores_actual=0; 
-     CapacidadSurtidores=1; 
-     Codigo=0; 
-
-
+     CapacidadSurtidores=1;
+     Codigo=0;
 }
 
 Islas::Islas(int _NumSurtidores, int _Codigo)
@@ -19,14 +17,15 @@ Islas::Islas(int _NumSurtidores, int _Codigo)
      arregloSurtidores = new Surtidores[CapacidadSurtidores]; 
      
     //DEFINIR OPCIONES DEL MODELO
-    // Definir las opciones usando un arreglo estático de std::string
+    // Definir las opciones usando un arreglo estatico de std::string
     std::string opciones[] = {"ABD", "XYZ", "JCL"};
 
-    // Seleccionar un índice aleatorio
+    // Seleccionar un indice aleatorio
     int indiceAleatorio = rand() % 3;
      
      //asignar surtidores a islas
-    for (int i=0; i<_NumSurtidores;i++){
+    for (int i=0; i<_NumSurtidores;i++)
+    {
         asignarSurtidor( opciones[indiceAleatorio]);
     }
 
@@ -63,11 +62,11 @@ void Islas::asignarSurtidor( std::string _modeloSurtidor){
         arregloSurtidores = nuevoArreglo;
     }
 
-    // Asignar los valores al nuevo surtidor en el arreglo, usando acceso directo a los atributos públicos
+    // Asignar los valores al nuevo surtidor en el arreglo, usando acceso directo a los atributos publicos
     arregloSurtidores[NumSurtidores_actual]=Surtidores(NumSurtidores_actual , _modeloSurtidor);
 
-    // Incrementar el número de surtidores
-    NumSurtidores_actual++;  // Incrementamos el número de surtidores
+    // Incrementar el numero de surtidores
+    NumSurtidores_actual++;  // Incrementamos el numero de surtidores
 
     std::cout << "Surtidor asignado correctamente." << std::endl;
     
@@ -79,13 +78,13 @@ void Islas::eliminarSurtidor(int _codigoSurtidor)
 
     if (_codigoSurtidor >= 0 && _codigoSurtidor < NumSurtidores_actual)
     {
-        // Mover los surtidores hacia adelante a partir del índice
+        // Mover los surtidores hacia adelante a partir del indice
         for (int i = _codigoSurtidor; i < NumSurtidores_actual - 1; i++)
         {
             arregloSurtidores[i] = arregloSurtidores[i + 1];
         }
 
-        NumSurtidores_actual = NumSurtidores_actual - 1; // Reducimos el número de surtidores actuales
+        NumSurtidores_actual = NumSurtidores_actual - 1; // Reducimos el numero de surtidores actuales
 
         std::cout << "Surtidor eliminado correctamente.\n";
     }

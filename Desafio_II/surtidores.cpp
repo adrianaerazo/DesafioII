@@ -7,11 +7,12 @@ Surtidores::Surtidores()
     codigoSurtidor=0;
     modeloSurtidor="";
     surtidorActivo=false;
-    Num_ventas=0;
+    NumTransaccionesActuales=0;
     NumTransacciones=20;
     // Inicializar el arreglo bidimensional con la capacidad inicial
     historial_Transacciones = new int*[NumTransacciones];
-    for (int i = 0; i < NumTransacciones; i++) {
+    for (int i = 0; i < NumTransacciones; i++)
+    {
         historial_Transacciones[i] = new int[6];  // Cada fila tendrá 6 columnas
     }
 
@@ -26,7 +27,8 @@ Surtidores::Surtidores(int _codigoSurtidor, std::string _modeloSurtidor)
 }
 
 
-void Surtidores::redimensionarTransacciones(){
+void Surtidores::redimensionarTransacciones()
+{
     
     // Aumentar la capacidad al doble
     int nuevaCapacidad = NumTransacciones * 2;
@@ -38,14 +40,17 @@ void Surtidores::redimensionarTransacciones(){
     }
 
     // Copiar los datos del arreglo antiguo al nuevo
-    for (int i = 0; i < Num_ventas; i++) {
-        for (int j = 0; j < 6; j++) {
+    for (int i = 0; i < NumTransaccionesActuales; i++)
+    {
+        for (int j = 0; j < 6; j++)
+        {
             nuevoArreglo[i][j] = historial_Transacciones[i][j];
         }
     }
 
     // Liberar la memoria del arreglo antiguo
-    for (int i = 0; i < NumTransacciones; i++) {
+    for (int i = 0; i < NumTransacciones; i++)
+    {
         delete[] historial_Transacciones[i];
     }
     delete[] historial_Transacciones;
@@ -56,19 +61,21 @@ void Surtidores::redimensionarTransacciones(){
 
 }
 
-void Surtidores::imprimirTransacciones() {
+void Surtidores::imprimirTransacciones()
+{
     std::cout << "Detalles de las transacciones:\n";
     std::cout << "---------------------------------------\n";
     std::cout << "Método Pago | Cantidad (L) | Fecha       | Hora       | Tipo Gasolina | Precio\n";
     std::cout << "---------------------------------------\n";
 
-    for (int i = 0; i < NumTransacciones; i++) {
+    for (int i = 0; i < NumTransacciones; i++)
+    {
         std::cout << historial_Transacciones[i][0] << "          | "  // Método de pago
                   << historial_Transacciones[i][1] << "          | "  // Cantidad en litros
-                  << historial_Transacciones[i][2] << " | "             // Fecha
-                  << historial_Transacciones[i][3] << " | "             // Hora
+                  << historial_Transacciones[i][2] << " | "           // Fecha
+                  << historial_Transacciones[i][3] << " | "           // Hora
                   << historial_Transacciones[i][4] << "          | "  // Tipo de gasolina
-                  << historial_Transacciones[i][5] << "\n";            // Precio
+                  << historial_Transacciones[i][5] << "\n";           // Precio
     }
 
     std::cout << "---------------------------------------\n";
@@ -112,16 +119,17 @@ void Surtidores::imprimirTransacciones() {
     
     //Informacion de venta
     
-    if (Num_ventas==NumTransacciones){ // si el num ventas llega al max de transacciones, aumentar espacio
+    if (NumTransaccionesActuales==NumTransacciones)
+    { // si el num ventas llega al max de transacciones, aumentar espacio
         redimensionarTransacciones();
     }
     
     // Asignar los valores a la siguiente fila disponible
-    historial_Transacciones[Num_ventas][0] = _metodo_pago;
-    historial_Transacciones[Num_ventas][1] = _cant_L;
-    historial_Transacciones[Num_ventas][2] = fecha;
-    historial_Transacciones[Num_ventas][3] = hora;
-    historial_Transacciones[Num_ventas][4] = tipo_gal;
+    historial_Transacciones[NumTransaccionesActuales][0] = _metodo_pago;
+    historial_Transacciones[NumTransaccionesActuales][1] = _cant_L;
+    historial_Transacciones[NumTransaccionesActuales][2] = fecha;
+    historial_Transacciones[NumTransaccionesActuales][3] = hora;
+    historial_Transacciones[NumTransaccionesActuales][4] = tipo_gal;
     
     //Guardar valores totales de ventas
     precio_cobrar=preciosCombustible*_cant_L; //Las columnas son Sur/Centro/Norte, las filas son el tipo de gasolina, Regular/Premium/Eco
@@ -129,17 +137,17 @@ void Surtidores::imprimirTransacciones() {
     historial_Ventas[tipo_gal+1]=historial_Ventas[tipo_gal+1]+precio_cobrar ; // venta tipo gasolina
 
     //asignar el valor monetario al historial de transacciones
-    historial_Transacciones[Num_ventas][5] = precio_cobrar; //precio por transaccion cobrada
+    historial_Transacciones[NumTransaccionesActuales][5] = precio_cobrar; //precio por transaccion cobrada
     
     imprimirTransacciones();
     
 
-    Num_ventas=Num_ventas+1;
+    NumTransaccionesActuales=NumTransaccionesActuales+1;
     
     // Crear un arreglo para retornar los resultados
     int* resultados = new int[2];
     resultados[0] = Capacidad_tanque;  // Capacidad restante
-    resultados[1] = Num_ventas;         // Número total de ventas
+    resultados[1] = NumTransaccionesActuales;         // Número total de ventas
 
     return resultados; // Retornar el arreglo de resultados
     

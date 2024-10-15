@@ -15,8 +15,8 @@ int main()
     // Inicializar la semilla del generador de numeros aleatorios
     srand(static_cast<int>(time(0)));
 
-    // Crear una empresa con capacidad para 5 estaciones
-    Empresa empresaTerMax("TerMax", 5);
+    // Crear una empresa con capacidad para 10 estaciones
+    Empresa empresaTerMax("TerMax", 10);
 
     // Mostrar el menu principal
     menuPrincipal(empresaTerMax);
@@ -51,6 +51,8 @@ void menuPrincipal(Empresa &empresaTerMax)
 
     do
     {
+        std::cout << "Empresa TerMax" << std::endl;
+        std::cout<<std::endl;
         std::cout << "\nMenu Principal" << std::endl;
         std::cout<<std::endl;
         std::cout << "1. Gestionar Empresa." << std::endl;
@@ -97,6 +99,9 @@ void menuEmpresa(Empresa &empresaTerMax)
 
     do
     {
+        std::cout<<std::endl;
+        std::cout << "Empresa TerMax" << std::endl;
+        std::cout<<std::endl;
         std::cout << "\nMenu Gestionar Empresa" << std::endl;
         std::cout<<std::endl;
         std::cout << "1. Agregar estaciones de servicio." << std::endl;
@@ -114,6 +119,9 @@ void menuEmpresa(Empresa &empresaTerMax)
         case 1:
         {
             // Agregar estaciones de servicio
+            std::cout<<std::endl;
+            std::cout << "Empresa TerMax" << std::endl;
+            std::cout<<std::endl;
             std::cout<<std::endl;
             std::cout << "Datos para crear la estacion: "<<std::endl;
             std::string nombreEstacion;
@@ -139,19 +147,19 @@ void menuEmpresa(Empresa &empresaTerMax)
             std::cin>>islas;
 
             empresaTerMax.crearEstacion(nombreEstacion, codigoEstacion, gerente, region, ubicacionGPS, empresaTerMax.getPreciosCombustible(), islas);
-            std::cout<<"Estacion creada exitosamente"<<std::endl;
             std::cout<<std::endl;
 
             std::cout<<"Actualizacion de estaciones: "<<std::endl;
             std::cout<<std::endl;
-            for (int i = 0; i <= empresaTerMax.getnumeroEstaciones_actual(); i++)
+            for (int i = 0; i < empresaTerMax.getnumeroEstaciones_actual(); i++)
             {
-                for(int j = 1; j <= empresaTerMax.getnumeroEstaciones_actual(); j++)
+                for(int j = 0; j <= empresaTerMax.getnumeroEstaciones_actual(); j++)
                 {
                     std::cout <<j<<". Estacion: ";
                     std::cout << empresaTerMax.arregloEstaciones[i].getNombreEstacion() << std::endl;
                 }
             }
+
             int opcion;
             std::cout<<std::endl;
             std::cout<<"Seleccione una opcion: "<<std::endl;
@@ -175,17 +183,72 @@ void menuEmpresa(Empresa &empresaTerMax)
         }
         case 2:
         {
+            std::cout<<std::endl;
+            std::cout << "Empresa TerMax" << std::endl;
+            std::cout<<std::endl;
             // Eliminar una E/S de la red nacional
+            std::cout<<std::endl;
+            std::cout<<"Lista de estaciones: "<<std::endl;
+            std::cout<<std::endl;
+
+            for (int i = 0; i < empresaTerMax.getnumeroEstaciones_actual(); i++)
+            {
+                for(int j = 0; j <= empresaTerMax.getnumeroEstaciones_actual(); j++)
+                {
+                    std::cout <<j<<". Estacion: ";
+                    std::cout << empresaTerMax.arregloEstaciones[i].getNombreEstacion() << std::endl;
+                }
+            }
+
+            std::cout<<std::endl;
             std::cout<<"Datos para eliminar la estacion: "<<std::endl;
+
             int indice;
-            std::cout << "Ingrese el codigo de la estacion a eliminar: ";
+            std::cout << "Ingrese la opcion de la estacion a eliminar: ";
             std::cin >> indice;
+
+            verificarOpcion(indice,0,empresaTerMax.getnumeroEstaciones_actual() );
             empresaTerMax.eliminarEstacion(indice);
+
+            std::cout<<"Actualizacion de estaciones: "<<std::endl;
+            std::cout<<std::endl;
+            for (int i = 0; i < empresaTerMax.getnumeroEstaciones_actual(); i++)
+            {
+                for(int j = 0; j <= empresaTerMax.getnumeroEstaciones_actual(); j++)
+                {
+                    std::cout <<j<<". Estacion: ";
+                    std::cout << empresaTerMax.arregloEstaciones[i].getNombreEstacion() << std::endl;
+                }
+            }
+
+            int opcion;
+            std::cout<<std::endl;
+            std::cout<<"Seleccione una opcion: "<<std::endl;
+            std::cout<<"1. Volver al menu gestion de empresa. "<<std::endl;
+            std::cout<<"2. Volver al menu principal. "<<std::endl;
+            std::cout<<"Ingrese la opcion: ";
+            std::cin>>opcion;
+            verificarOpcion(opcion, 1, 2);
+            switch (opcion)
+            {
+            case 1:
+            {
+                menuEmpresa(empresaTerMax);
+            }
+            default:
+            {
+                menuPrincipal(empresaTerMax);
+            }
+            }
+
             break;
         }
         case 3:
         {
             // Calcular el monto total de las ventas en cada E/S
+            std::cout<<std::endl;
+            std::cout << "Empresa TerMax" << std::endl;
+            std::cout<<std::endl;
             std::cout << "Calculo ventas totales de cada estacion: "<< std::endl;
             empresaTerMax.calculoMontoTotal();
             break;
