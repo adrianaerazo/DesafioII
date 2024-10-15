@@ -26,7 +26,8 @@ Estaciones::Estaciones(std::string _nombreEstacion, short _codigoEstacion,std::s
     if (CapacidadIslas>1)
     {
         numero_total_surtidores=_NumIslas_actual;
-        for (int i=0; i<_NumIslas_actual;i++){
+        for (int i=0; i<_NumIslas_actual;i++)
+        {
             
             crearIsla(1);// i va a ser el codigo, la pos en el arreglo
         }
@@ -312,6 +313,26 @@ int Estaciones::getRegion()
 {
     return region;
 }
+void Estaciones::imprimirIslasYSurtidores() const
+{
+    std::cout << "Estacion: " << nombreEstacion << " - Numero de Islas: " << NumIslas_actual << std::endl;
+
+    // Recorre cada isla de la estación
+    for (int i = 0; i < NumIslas_actual; i++)
+    {
+        std::cout << "Isla " << i + 1 << " - Numero de surtidores: " << arregloIslas[i].getNumeroTotalSurtidores() << std::endl;
+
+        // Recorrer los surtidores en la isla
+        for (int j = 0; j < arregloIslas[i].getNumeroTotalSurtidores(); j++)
+        {
+            bool activo = arregloIslas[i].getSurtidor(j).verificarActivo();  // Verificar si está activo
+            std::string estado = activo ? "Activo" : "Inactivo";
+
+            std::cout << "   Surtidor " << j + 1 << " (" << estado << ")" << std::endl;
+        }
+    }
+}
+
 void Estaciones::actualizarDisponibilidadCombustible()
 {
 

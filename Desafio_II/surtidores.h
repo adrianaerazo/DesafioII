@@ -24,6 +24,12 @@ public:
 
     void redimensionarTransacciones();
     void imprimirTransacciones();
+
+    void activarSurtidor();
+    void desactivarSurtidor();
+    bool verificarActivo() const;
+    int getCodigo() const;
+    std::string getModelo() const;
     
     int*  ventaSurtidor(int _metodo_pago, int _cant_L, int tipo_gal, int _Capacidad_tanque, int preciosCombustible);
 

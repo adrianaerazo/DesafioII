@@ -153,3 +153,26 @@ void Surtidores::imprimirTransacciones()
     
  }
 
+void Surtidores::activarSurtidor()// Activar surtidor
+{
+    surtidorActivo = true;
+}
+void Surtidores::desactivarSurtidor()// Desactivar surtidor
+{
+    surtidorActivo = false;
+}
+bool Surtidores::verificarActivo() const// Verificar si el surtidor esta activo
+{
+    return surtidorActivo;
+}
+// Obtener el código del surtidor
+int Surtidores::getCodigo() const
+{
+    return codigoSurtidor;
+}
+
+// Obtener el modelo del surtidor
+std::string Surtidores::getModelo() const
+{
+    return modeloSurtidor;
+}

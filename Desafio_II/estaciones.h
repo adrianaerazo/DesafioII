@@ -59,6 +59,7 @@ public:
     void eliminarIsla(int _codigoIsla);
     int getNumIslas_actual();
     int getRegion();
+    void imprimirIslasYSurtidores() const;
 
     void actualizarPrecios(int nuevosPrecios[3][3]);
     void actualizarDisponibilidadCombustible();

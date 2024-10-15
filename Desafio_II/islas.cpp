@@ -8,7 +8,7 @@ Islas::Islas()
      CapacidadSurtidores=1;
      Codigo=0;
 }
-
+//constructor
 Islas::Islas(int _NumSurtidores, int _Codigo)
 {
      NumSurtidores_actual=0; 
@@ -28,9 +28,8 @@ Islas::Islas(int _NumSurtidores, int _Codigo)
     {
         asignarSurtidor( opciones[indiceAleatorio]);
     }
-
-
 }
+
 
 // Destructor
 Islas::~Islas()
@@ -103,4 +102,25 @@ int Islas::getNumeroTotalSurtidores()
 int Islas::getCodigoIsla()
 {
     return Codigo;
+}
+Surtidores& Islas::getSurtidor(int indice)
+{
+    return arregloSurtidores[indice];  // Devuelve el surtidor solicitado
+}
+// Activar surtidor
+void Islas::activarSurtidor(int indice)
+{
+    if (indice >= 0 && indice < NumSurtidores_actual)
+    {
+        arregloSurtidores[indice].activarSurtidor();
+    }
+}
+
+// Desactivar surtidor
+void Islas::desactivarSurtidor(int indice)
+{
+    if (indice >= 0 && indice < NumSurtidores_actual)
+    {
+        arregloSurtidores[indice].desactivarSurtidor();
+    }
 }

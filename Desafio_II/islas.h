@@ -21,9 +21,13 @@ public:
 
     void asignarSurtidor( std::string _modeloSurtidor);
     void eliminarSurtidor(int _codigoSurtidor);
+
     int getNumeroTotalSurtidores();
     int getCodigoIsla();
+    Surtidores& getSurtidor(int indice);
 
+    void activarSurtidor(int indice);
+    void desactivarSurtidor(int indice);
 
 private:
 
