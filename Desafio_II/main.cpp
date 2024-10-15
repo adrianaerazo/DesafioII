@@ -1,6 +1,7 @@
 #include "empresa.h"
 #include "estaciones.h"
 #include "surtidores.h"
+#include "islas.h"
 #include <iostream>
 #include <cstdlib> // Para rand() y srand()
 #include <ctime>   // Para time()
@@ -146,12 +147,19 @@ void menuEmpresa(Empresa &empresaTerMax)
             std::cout<<"Ingresa la cantidad de islas: ";
             std::cin>>islas;
 
-            empresaTerMax.crearEstacion(nombreEstacion, codigoEstacion, gerente, region, ubicacionGPS, empresaTerMax.getPreciosCombustible(), islas);
+
+            // Declaramos la matriz para guardar los precios del combustible
+            int preciosCombustible[3][3];
+
+            // Llamar al metodo que copia los precios de la empresa a la matriz local
+            empresaTerMax.getPreciosCombustible(preciosCombustible);
+
+            empresaTerMax.crearEstacion(nombreEstacion, codigoEstacion, gerente, region, ubicacionGPS, preciosCombustible, islas);
             std::cout<<std::endl;
 
             std::cout<<"Actualizacion de estaciones: "<<std::endl;
             std::cout<<std::endl;
-            for (int i = 0; i < empresaTerMax.getnumeroEstaciones_actual(); i++)
+            for (int i = 0; i <= empresaTerMax.getnumeroEstaciones_actual(); i++)
             {
                 for(int j = 0; j <= empresaTerMax.getnumeroEstaciones_actual(); j++)
                 {
@@ -220,7 +228,7 @@ void menuEmpresa(Empresa &empresaTerMax)
                     std::cout << empresaTerMax.arregloEstaciones[i].getNombreEstacion() << std::endl;
                 }
             }
-
+            //opcion volver al menu
             int opcion;
             std::cout<<std::endl;
             std::cout<<"Seleccione una opcion: "<<std::endl;
@@ -250,7 +258,31 @@ void menuEmpresa(Empresa &empresaTerMax)
             std::cout << "Empresa TerMax" << std::endl;
             std::cout<<std::endl;
             std::cout << "Calculo ventas totales de cada estacion: "<< std::endl;
-            empresaTerMax.calculoMontoTotal();
+
+            // Llamamos al metodo para calcular y mostrar las ventas totales de todas las estaciones
+            empresaTerMax.calculoMontoTotal();  // imprime los detalles de cada estación
+            std::cout<<std::endl;
+
+            //opcion volver al menu
+            int opcion;
+            std::cout<<std::endl;
+            std::cout<<"Seleccione una opcion: "<<std::endl;
+            std::cout<<"1. Volver al menu gestion de empresa. "<<std::endl;
+            std::cout<<"2. Volver al menu principal. "<<std::endl;
+            std::cout<<"Ingrese la opcion: ";
+            std::cin>>opcion;
+            verificarOpcion(opcion, 1, 2);
+            switch (opcion)
+            {
+            case 1:
+            {
+                menuEmpresa(empresaTerMax);
+            }
+            default:
+            {
+                menuPrincipal(empresaTerMax);
+            }
+            }
             break;
         }
         case 4:
@@ -263,17 +295,67 @@ void menuEmpresa(Empresa &empresaTerMax)
             std::cout << "el incremento de precio es para hacer las cuentas automaticas. " << std::endl;
             std::cout << std::endl;
 
+            //realizar los cambios
             int precioBase, precioAumentar;
             std::cout << "Ingrese el precio base: ";
             std::cin >> precioBase;
             std::cout << "Ingrese el incremento de precio: ";
             std::cin >> precioAumentar;
             empresaTerMax.cambiarPrecio(precioBase, precioAumentar);
+
+            // Mostrar actualización de cambios
+            std::cout << std::endl;
+            std::cout << "Actualizacion de cambios: " << std::endl;
+            std::cout << std::endl;
+
+            for (int i = 0; i < 3; i++)
+            {
+                // Obtener la región de la estación
+                short region = empresaTerMax.arregloEstaciones[i].getRegion();
+                std::string regionesArreglo[3] = { "Sur", "Centro", "Norte" };
+                std::cout << "Region: " << regionesArreglo[region] << std::endl;
+
+                // Declaramos la matriz para guardar los precios del combustible (3x3)
+                int preciosCombustible[3][3];
+
+                // Llamar al metodo que copia los precios de la empresa a la matriz local
+                empresaTerMax.getPreciosCombustible(preciosCombustible);
+
+                // Imprimir los precios de la estación para cada tipo de combustible
+                std::cout << "Precios de combustible: " << std::endl;
+                std::cout << "Precio Gasolina Regular: " << preciosCombustible[0][i] << std::endl;
+                std::cout << "Precio Gasolina Premium: " << preciosCombustible[1][i] << std::endl;
+                std::cout << "Precio Gasolina EcoExtra: " << preciosCombustible[2][i] << std::endl;
+
+                std::cout << std::endl;  // Salto de línea para separar las estaciones
+            }
+
+            //opcion volver al menu
+            int opcion;
+            std::cout<<std::endl;
+            std::cout<<"Seleccione una opcion: "<<std::endl;
+            std::cout<<"1. Volver al menu gestion de empresa. "<<std::endl;
+            std::cout<<"2. Volver al menu principal. "<<std::endl;
+            std::cout<<"Ingrese la opcion: ";
+            std::cin>>opcion;
+
+            verificarOpcion(opcion, 1, 2);
+            switch (opcion)
+            {
+            case 1:
+            {
+                menuEmpresa(empresaTerMax);
+            }
+            default:
+            {
+                menuPrincipal(empresaTerMax);
+            }
+            }
             break;
         }
         case 5:
         {
-            std::cout << "Volviendo al menu principal." << std::endl;
+            menuPrincipal(empresaTerMax);
             break;
         }
         default:
@@ -314,7 +396,7 @@ void menuEstaciones(Empresa &empresaTerMax)
 
             for (int i = 0; i <= empresaTerMax.getnumeroEstaciones_actual(); i++)
             {
-                for(int j = 1; j <= empresaTerMax.getnumeroEstaciones_actual(); j++)
+                for(int j = 0; j <= empresaTerMax.getnumeroEstaciones_actual(); j++)
                 {
                     std::cout <<j<<". Estacion: ";
                     std::cout << empresaTerMax.arregloEstaciones[i].getNombreEstacion() << std::endl;
@@ -326,14 +408,86 @@ void menuEstaciones(Empresa &empresaTerMax)
             std::cin>>opcion;
 
             verificarOpcion(opcion, 1, empresaTerMax.getnumeroEstaciones_actual());
-            std::cout <<"Estacion "<<empresaTerMax.arregloEstaciones[opcion].getNombreEstacion()<<std::endl;
-            int codigoSurtidorMenu=0;
-            std::cout << "Tenga en cuenta que necesita el codigo del surtidor a agregar."<<std::endl;
-            std::cout << std::endl;
-            std::cout << "Ingrese el codigo del surtidor: ";
-            std::cin >>codigoSurtidorMenu;
+
+            // Obtener la estacion seleccionada
+            for (int i = 0; i < empresaTerMax.getnumeroEstaciones_actual(); i++)
+            {
+                // Imprimir el nombre de la estacion
+                std::cout << i << ". Estacion: " << empresaTerMax.arregloEstaciones[i].getNombreEstacion() << std::endl;
+
+                // Obtener la region de la estacion
+                short region = empresaTerMax.arregloEstaciones[i].getRegion();
+                std::string regionesArreglo[3]={"Sur", "Centro","Norte"};
+                std::cout << "Region: " << regionesArreglo[region] << std::endl;
+            }
 
 
+            //imprimir enunciado
+            std::cout<<std::endl;
+            std::cout<<"Islas: "<<std::endl;
+            std::cout<<std::endl;
+
+            std::cout<<std::endl;
+            std::cout<<"Sutidores Activos: "<<std::endl;
+
+            //opciones de los surtidores
+            int opcionsurti=0;
+            std::cout<<std::endl;
+            std::cout << "Opciones: "<<std::endl;
+            std::cout << "1. Crear Isla "<<std::endl;
+            std::cout << "2. Crear Surtidor "<<std::endl;
+            std::cout << "Ingrese la opcion:  ";
+            std::cin>>opcionsurti;
+            verificarOpcion(opcionsurti, 1, 2);
+
+
+            //actualizacion de islas
+            std::cout<<std::endl;
+            std::cout << "Actualizacion de islas y surtidores "<<std::endl;
+            // Obtener la estacion seleccionada
+            for (int i = 0; i < empresaTerMax.getnumeroEstaciones_actual(); i++)
+            {
+                // Imprimir el nombre de la estacion
+                std::cout << i << ". Estacion: " << empresaTerMax.arregloEstaciones[i].getNombreEstacion() << std::endl;
+
+                // Obtener la region de la estacion
+                short region = empresaTerMax.arregloEstaciones[i].getRegion();
+                std::string regionesArreglo[3]={"Sur", "Centro","Norte"};
+                std::cout << "Region: " << regionesArreglo[region] << std::endl;
+            }
+
+
+            //imprimir enunciado
+            std::cout<<std::endl;
+            std::cout<<"Islas: "<<std::endl;
+            std::cout<<std::endl;
+
+            std::cout<<std::endl;
+            std::cout<<"Sutidores Activos: "<<std::endl;
+
+            //estos espacios
+
+
+            //opcion volver al menu
+            int opcionvolver;
+            std::cout<<std::endl;
+            std::cout<<"Seleccione una opcion: "<<std::endl;
+            std::cout<<"1. Volver al menu gestion de estaciones. "<<std::endl;
+            std::cout<<"2. Volver al menu principal. "<<std::endl;
+            std::cout<<"Ingrese la opcion: ";
+            std::cin>>opcionvolver;
+            verificarOpcion(opcionvolver, 1, 2);
+            switch (opcionvolver)
+            {
+            case 1:
+            {
+                menuEstaciones(empresaTerMax);
+            }
+            default:
+            {
+                menuPrincipal(empresaTerMax);
+            }
+            }
             break;
         }
         case 2:

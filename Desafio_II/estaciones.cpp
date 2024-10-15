@@ -250,6 +250,7 @@ void Estaciones::actualizarPrecios(int nuevosPrecios[3][3])
 }
 
 
+
 void Estaciones::crearIsla(int _CapacidadSurtidores){
   // Verificamos si necesitamos redimensionar el arreglo
     if (NumIslas_actual == CapacidadIslas)
@@ -303,28 +304,15 @@ void Estaciones::eliminarIsla(int _codigoIsla)
         std::cout << "Posicion fuera de rango. No se pudo eliminar la isla.\n";
     }
 }
-
-void Estaciones::agregarSurtidor(int codigoSurtidor, std::string modeloSurtidor)
+int Estaciones::getNumIslas_actual()
 {
-
+    return NumIslas_actual;
 }
-
-void Estaciones::eliminarSurtidor(int codigoSurtidor, std::string modeloSurtidor)
+int Estaciones::getRegion()
 {
-
+    return region;
 }
-
-void Estaciones::calcularVentasPorCategoria()
-{
-
-}
-
 void Estaciones::actualizarDisponibilidadCombustible()
-{
-
-}
-
-void Estaciones::simularVentaCombustible()
 {
 
 }

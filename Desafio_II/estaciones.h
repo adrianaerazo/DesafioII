@@ -53,15 +53,15 @@ public:
     std::string getGerente() const;
     int getregion();
 
+
+
     void crearIsla(int _CapacidadSurtidores);
     void eliminarIsla(int _codigoIsla);
+    int getNumIslas_actual();
+    int getRegion();
 
     void actualizarPrecios(int nuevosPrecios[3][3]);
-    void agregarSurtidor(int codigoSurtidor, std::string modeloSurtidor);
-    void eliminarSurtidor(int codigoSurtidor, std::string modeloSurtidor);
-    void calcularVentasPorCategoria();
     void actualizarDisponibilidadCombustible();
-    void simularVentaCombustible();
     bool verificarFugaCombustible();
 };
 

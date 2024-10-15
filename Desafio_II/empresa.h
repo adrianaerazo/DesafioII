@@ -25,13 +25,11 @@ public:
 
     void crearEstacion(std::string _nombreEstacion,int codigoEstacion,  std::string _gerente, short _region, float _ubicacionGPS[2], int preciosCombustible[3][3], int _CapacidadIslas);
     void eliminarEstacion(int indice);
+    void getPreciosCombustible(int precios[3][3]);
     int getnumeroEstaciones_actual();
     std::string getnombreEmpresa();
     int calculoMontoTotal();
     void cambiarPrecio(int precioBase, int precioAumentar);
-
-    // Método get que devuelve un puntero al primer elemento del arreglo
-    int (*getPreciosCombustible())[3];//manipular los precios por fuera de la clase
 
 };
 

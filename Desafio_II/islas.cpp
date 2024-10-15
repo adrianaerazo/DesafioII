@@ -4,7 +4,7 @@
 
 Islas::Islas()
 {
-     NumSurtidores_actual=0; 
+     NumSurtidores_actual=0;
      CapacidadSurtidores=1;
      Codigo=0;
 }
@@ -39,7 +39,8 @@ Islas::~Islas()
 
 }
 
-void Islas::asignarSurtidor( std::string _modeloSurtidor){
+void Islas::asignarSurtidor( std::string _modeloSurtidor)
+{
     // Verificamos si necesitamos redimensionar el arreglo
     if (NumSurtidores_actual == CapacidadSurtidores)
     {
@@ -93,4 +94,13 @@ void Islas::eliminarSurtidor(int _codigoSurtidor)
         std::cout << "Posicion fuera de rango. No se pudo eliminar el surtidor.\n";
     }
     
+}
+// Implementacion get y set Numero Total Surtidores
+int Islas::getNumeroTotalSurtidores()
+{
+    return NumSurtidores_actual;
+}
+int Islas::getCodigoIsla()
+{
+    return Codigo;
 }

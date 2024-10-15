@@ -93,6 +93,16 @@ void Empresa::eliminarEstacion(int indice)
         std::cout << "Posicion fuera de rango. No se pudo eliminar la estacion.\n";
     }
 }
+void Empresa::getPreciosCombustible(int precios[3][3])
+{
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            precios[i][j] = preciosCombustible[i][j]; // Copiamos cada valor
+        }
+    }
+}
 
 int Empresa::calculoMontoTotal()
 {//Calcular ventas totales de la estacion
@@ -137,12 +147,11 @@ void Empresa::cambiarPrecio(int precioBase, int precioAumentar)
     {
         arregloEstaciones[i].actualizarPrecios(preciosCombustible); // Método para actualizar precios en cada estación
     }
+
+    std::cout <<"Cambios realizados exitosamente. "<<std::endl;
 }
 
-int (*Empresa::getPreciosCombustible())[3]
-{
-    return preciosCombustible;
-}
+
 
 
 
